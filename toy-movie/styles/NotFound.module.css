@@ -1,0 +1,25 @@
+.notFound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  margin: 25px 0 60px;
+  color: #e1e1e1;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 26px;
+  font-family: "Noto Sans KR";
+  text-align: center;
+}
+
+:global(.light) .content {
+  color: #121212;
+}
+
+.button {
+  width: 100%;
+  max-width: 250px;
+}
