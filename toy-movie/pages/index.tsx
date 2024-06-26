@@ -1,9 +1,13 @@
 import MovieList from '@/components/MovieList';
 import styles from '@/styles/Home.module.css';
-import axios from '@/lib/axios';
+import axios from '@/lib/movie/axios';
+import { GetStaticProps } from 'next';
 
+interface Props {
+  movies: [] | undefined;
+};
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async() =>  {
   const res = await axios.get('/movies/');
   const movies = res.data.results ?? [];
   return {
@@ -11,7 +15,7 @@ export async function getStaticProps() {
   };
 }
 
-export default function Home({ movies }: any) {
+export default function Home({ movies }: Props) {
   return (
     <>
       <MovieList className={styles.movieList} movies={movies}/>

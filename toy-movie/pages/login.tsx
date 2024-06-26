@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import Button from '@/components/Button';
+import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import Button from '@/components/member/Button';
 import Input from '@/components/Input';
 import Label from '@/components/Label';
 import { useSetLocale, useTranslate } from '@/components/Translate';
@@ -23,7 +23,8 @@ function App() {
     if (form) form['username'].focus();
   }, []);
 
-  function handleChange(e: any) {
+  // input onChange이벤트
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     const nextValues = {
       ...values,
@@ -32,7 +33,8 @@ function App() {
     setValues(nextValues);
   }
 
-  function handleClick(e: any) {
+  // input onClick이벤트
+  function handleClick(e: MouseEvent) {
     e.preventDefault();
 
     const message = `${values.username}님 환영합니다`;
