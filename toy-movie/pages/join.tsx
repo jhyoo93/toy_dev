@@ -6,18 +6,64 @@ import HorizontalRule from '@/components/HorizontalRule';
 import Label from '@/components/Label';
 import Input from '@/components/Input';
 import Link from '../components/Link';
+import { ChangeEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useToaster } from '@/contexts/ToasterProvider';
+import axios from 'axios';
 
+export default function RegisterPage() {
+  const [values, setValues] = useState({
+    name: '',
+    email: '',
+    password: '',
+    passwordRepeat: '',
+  });
+  //const navigate = useNavigate();
+  //const toast = useToaster();
 
-export default function join() {
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  }
+
+  async function handleSubmit(e: MouseEvent) {
+    e.preventDefault();
+
+    if (values.password !== values.passwordRepeat) {
+      //toast('warn', '비밀번호가 일치하지 않습니다.');
+      return;
+    }
+    const { name, email, password } = values;
+    /**
+     * @TODO
+     * 서버에 회원을 생성한다
+     * 회원 생성이 성공하면 로그인을 시도한다
+     * 로그인이 성공하면 `/me`로 이동한다
+     */
+    axios.post('/users', {
+      name,
+      email,
+      password,
+    })
+  }
 
   return (
     <>
       <h1 className={styles.Heading}>회원가입</h1>
-      <Button className={styles.GoogleButton} type="button" appearance="outline">
-          <img src={GoogleImage} alt="Google" />구글로 시작하기
+      <Button
+        className={styles.GoogleButton}
+        type="button"
+        appearance="outline"
+      >
+        <img src={GoogleImage} alt="Google" />
+        구글로 시작하기
       </Button>
       <HorizontalRule className={styles.HorizontalRule}>또는</HorizontalRule>
-      <form className={styles.Form} >
+      <form className={styles.Form} onSubmit={handleSubmit}>
         <Label className={styles.Label} htmlFor="name">
           이름
         </Label>
@@ -27,6 +73,8 @@ export default function join() {
           name="name"
           type="text"
           placeholder="김링크"
+          value={values.name}
+          onChange={handleChange}
         />
         <Label className={styles.Label} htmlFor="email">
           이메일
@@ -37,7 +85,8 @@ export default function join() {
           name="email"
           type="email"
           placeholder="example@email.com"
-
+          value={values.email}
+          onChange={handleChange}
         />
         <Label className={styles.Label} htmlFor="password">
           비밀번호
@@ -48,6 +97,8 @@ export default function join() {
           name="password"
           type="password"
           placeholder="비밀번호"
+          value={values.password}
+          onChange={handleChange}
         />
         <Label className={styles.Label} htmlFor="passwordRepeat">
           비밀번호 확인
@@ -58,10 +109,14 @@ export default function join() {
           name="passwordRepeat"
           type="password"
           placeholder="비밀번호 확인"
+          value={values.passwordRepeat}
+          onChange={handleChange}
         />
         <Button className={styles.Button}>회원가입</Button>
-
+        <div>
+          이미 회원이신가요? <a href="/">로그인하기</a>
+        </div>
       </form>
     </>
   );
-} 
+}

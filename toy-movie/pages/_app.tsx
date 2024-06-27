@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>THE-MOVIE</title>
+        <title>MOVIE</title>
         <link rel="icon" href="/favicon.ico" />
         <style>{fontStyle}</style>
       </Head>

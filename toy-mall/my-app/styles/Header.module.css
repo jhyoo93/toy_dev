@@ -1,0 +1,27 @@
+.header {
+  border-bottom: 1px solid #1f1f1f;
+}
+
+:global(.light) .header {
+  border-color: #e1e1e1;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 26px 0;
+}
+
+.setting {
+  background-image: url("/setting-white.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  text-indent: -9999px;
+}
+
+:global(.light) .setting {
+  background-image: url("/setting-black.svg");
+}

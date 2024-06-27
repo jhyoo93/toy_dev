@@ -1,0 +1,52 @@
+.movieList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 25px;
+  padding: 0;
+  list-style: none;
+}
+
+.info {
+  padding: 10px 20px;
+}
+
+.posterContainer {
+  display: block;
+  position: relative;
+  border-radius: 10px;
+  aspect-ratio: 27 / 40;
+  width: 100%;
+  overflow: hidden;
+}
+
+.title {
+  margin: 2px 0;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.date {
+  color: #e1e1e1;
+}
+
+:global(.light) .date {
+  color: #1f1f1f;
+}
+
+.starRatingContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 5px 0;
+}
+
+.starRating {
+  color: #e1e1e1;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+:global(.light) .starRating {
+  color: #1f1f1f;
+}

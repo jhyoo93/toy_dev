@@ -10,9 +10,9 @@ export default function Header() {
     <header className={styles.header}>
       <Container className={styles.container}>
         <Link href="/">
-        <Image src={logoImg} width={150} height={26} alt="TH" />
+        <Image src={logoImg} width={150} height={26} alt="THE" />
         </Link>
-        <Link href="/join">회원가입</Link>  
+        <Link className={styles.join} href="/join">회원가입</Link>  
         <Link className={styles.setting} href="/setting">설정</Link>
       </Container>
     </header>
