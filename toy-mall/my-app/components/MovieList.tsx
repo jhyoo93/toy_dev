@@ -1,56 +1,86 @@
-import { GetServerSideProps } from 'next';
-import { getReviews } from '@/lib/movie/reviews';
-import styles from '@/styles/MovieList.module.css';
-import Image from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
+import styles from '@/styles/MovieList.module.css';
+import Rating from '@/components/Rating';
+import { useState } from 'react';
+import axios from 'axios';
+import useTranslate from '@/hooks/useTranslate';
 
 interface Review {
   id: number;
   title: string;
   content: string;
   createdAt: string;
+  imgUrl: string;
+  rating: number;
 }
 
 interface MovieListProps {
-  reviews: Review[];
+  initialReviews: Review[];
   className?: string;
 }
 
-const MovieList: React.FC<MovieListProps> = ({  reviews, className = '' }) => {
+const MovieList: React.FC<MovieListProps> = ({ initialReviews, className = '' }) => {
+  const t = useTranslate();
+  const [reviews, setReviews] = useState<Review[]>(initialReviews);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
+  const handleLoadMore = async () => {
+    if (loading) return;
+    setLoading(true);
+    try {
+      const response = await axios.get(`/api/reviews?page=${page + 1}`);
+      const newReviews = response.data.reviews;
+      if (newReviews.length > 0) {
+        setReviews((prevReviews) => [...prevReviews, ...newReviews]);
+        setPage((prevPage) => prevPage + 1);
+      } else {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error('Error loading more reviews:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  function formatDate(value: string) {
+    const date = new Date(value);
+    return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
+  }
+
   return (
-    <ul className={`${styles.movieList} ${className}`}>
-      {reviews && reviews.map((item: any) => (
-        <li key={item.id}>
-          <Link href={`/films/${item.id}`}>
-            <div className={styles.posterContainer}>
-              <Image fill src={item.imgUrl} alt={item.title} />
+    <div>
+      <ul className={`${styles.movieList} ${className}`}>
+        {reviews && reviews.map((item) => (
+          <li key={item.id}>
+            <Link href={`/films/${item.id}`}>
+              <div className={styles.posterContainer}>
+                <Image fill src={item.imgUrl} alt={item.title} />
+              </div>
+            </Link>
+            <div className={styles.info}>
+              <h2 className={styles.title}>{item.title}</h2>
+              <div className={styles.date}>
+                {formatDate(item.createdAt)}
+              </div>
+              <div className={styles.starRatingContainer}>
+                <Rating value={item.rating} />
+              </div>
             </div>
-          </Link>
-        </li>
-      ))}
-    </ul>
+          </li>
+        ))}
+      </ul>
+      {hasMore && (
+        <button onClick={handleLoadMore} disabled={loading} className={styles.loadMoreButton}>
+          {loading ? 'Loading...' : t('load more')}
+        </button>
+      )}
+    </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  try {
-    const reviews = await getReviews({ limit: 6 }); // 필요한 파라미터를 설정합니다.
-    return {
-      props: {
-        reviews,
-        className: '', // 필요한 클래스 네임을 여기에 설정합니다.
-      },
-    };
-  } catch (error) {
-    console.error('Error fetching reviews:', error);
-
-    return {
-      props: {
-        reviews: [],
-        className: '',
-      },
-    };
-  }
-};
 
 export default MovieList;

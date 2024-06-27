@@ -1,5 +1,7 @@
 //import { useLocale } from '../contexts/LocaleContext';
 
+import useLocale from "./useLocale";
+
 const dict = {
   ko: {
     'confirm button': '확인',
@@ -29,10 +31,13 @@ const dict = {
   },
 };
 
-function useTranslate() {
-  //const locale = useLocale();
-  //const translate = (key) => dict[locale][key] || '';
-  //return translate;
-}
+type Locale = keyof typeof dict;
+type TranslationKey = keyof typeof dict['en'];
+
+const useTranslate = () => {
+  const locale: Locale = useLocale() as Locale;
+  const translate = (key: TranslationKey) => dict[locale][key] || '';
+  return translate;
+};
 
 export default useTranslate;
