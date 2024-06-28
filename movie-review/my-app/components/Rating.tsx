@@ -26,18 +26,15 @@ const Star: React.FC<StarProps> = ({ selected = false, rating, onSelect, onHover
 };
 
 interface RatingProps {
+  value: number;
   className?: string;
-  value?: number;
-  onSelect?: (rating: number) => void;
-  onHover?: (rating: number) => void;
-  onMouseOut?: () => void;
 }
 
 const Rating: React.FC<RatingProps> = ({ value, className }) => {
   const stars = [];
   for (let i = 0; i < 5; i++) {
     stars.push(
-      <span key={i} className={className} style={{ color: i < value ? 'gold' : 'gray' }}>
+      <span key={i} className={className} style={{ color: i < value ? '#7fff00' : 'gray' }}>
         ★
       </span>
     );

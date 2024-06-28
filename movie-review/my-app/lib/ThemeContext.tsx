@@ -1,9 +1,14 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-export const ThemeContext = createContext();
+interface ThemeContextType {
+  theme: string;
+  setTheme: (theme: string) => void;
+}
+
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: any) {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
     document.body.classList.add(theme);

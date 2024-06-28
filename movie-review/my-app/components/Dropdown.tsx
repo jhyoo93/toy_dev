@@ -2,12 +2,17 @@ import { useEffect, useState, useRef, ChangeEvent } from 'react';
 import arrowImg from '@/public/arrow.svg';
 import styles from '@/styles/Dropdown.module.css';
 
+interface Option {
+  value: string;
+  label: string;
+}
+
 interface Props {
-  className: string,
-  name: string,
-  value: string,
-  options: [],
-  onChange: ChangeEvent,
+  className: string;
+  name: string;
+  value: string;
+  options: Option[];
+  onChange: (name: string, value: string) => void;
 }
 
 export default function Dropdown({
@@ -18,7 +23,7 @@ export default function Dropdown({
   onChange,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLDivElement>(null);
 
   function handleInputClick() {
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -30,15 +35,14 @@ export default function Dropdown({
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      const isInside = inputRef.current?.contains(e.target);
-      if (!isInside) {
+      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
     }
 
-    window.addEventListener('click', handleClickOutside);
+    window.addEventListener('click', handleClickOutside as EventListener);
     return () => {
-      window.removeEventListener('click', handleClickOutside);
+      window.removeEventListener('click', handleClickOutside as EventListener);
     };
   }, []);
 
@@ -54,7 +58,7 @@ export default function Dropdown({
       onBlur={handleBlur}
       ref={inputRef}
     >
-      {selectedOption.label}
+      {selectedOption?.label}
       <img
         className={styles.arrow}
         src={arrowImg.src}
@@ -62,23 +66,25 @@ export default function Dropdown({
         height={9}
         alt="▲"
       />
-      <div className={styles.options}>
-        {options.map((option) => {
-          const selected = value === option.value;
-          const className = `${styles.option} ${
-            selected ? styles.selected : ''
-          }`;
-          return (
-            <div
-              className={className}
-              key={option.value}
-              onClick={() => onChange(name, option.value)}
-            >
-              {option.label}
-            </div>
-          );
-        })}
-      </div>
+      {isOpen && (
+        <div className={styles.options}>
+          {options.map((option) => {
+            const selected = value === option.value;
+            const optionClassName = `${styles.option} ${
+              selected ? styles.selected : ''
+            }`;
+            return (
+              <div
+                className={optionClassName}
+                key={option.value}
+                onClick={() => onChange(name, option.value)}
+              >
+                {option.label}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

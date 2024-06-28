@@ -10,6 +10,12 @@
   padding: 10px 20px;
 }
 
+.titleRatingContainer {
+  display: flex;
+  align-items: normal;
+  gap: 10px; /* 제목과 별점 사이의 간격 */
+}
+
 .posterContainer {
   display: block;
   position: relative;
@@ -47,12 +53,18 @@
   font-size: 16px;
 }
 
+.loadMoreContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
 .loadMoreButton {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #0070f3;
+  background-color: #e0123b;
   color: #fff;
   align-self: center;
   margin-top: 20px;

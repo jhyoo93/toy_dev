@@ -1,3 +1,52 @@
 .title {
   font-size: 120px;
 }
+
+.sorts {
+  margin: 51px 0 23px;
+}
+
+.sortButton {
+  padding: 12px 40px;
+  border: none;
+  color: #fff;
+  font-weight: 600px;
+  font-size: 18px;
+  background-color: transparent;
+}
+
+.titleRatingContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 제목과 별점 사이의 간격 */
+}
+
+:global(.light).sortButton {
+  padding: 12px 40px;
+  border: none;
+  color: #000000;
+  font-weight: 600px;
+  font-size: 18px;
+  background-color: transparent;
+}
+
+.sortButton:not(:disabled) {
+  cursor: pointer;
+}
+
+.sortButtonSelected {
+  border-radius: 0 10px 0 10px;
+  color: #fff;
+  background-color: #e0123b;
+}
+
+.textRightAlign {
+  text-align: right;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0px;
+}

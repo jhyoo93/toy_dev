@@ -1,39 +1,43 @@
-import Link from 'next/link';
-import Image from 'next/image';
 import styles from '@/styles/MovieList.module.css';
-import Rating from '@/components/Rating';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import useTranslate from '@/hooks/useTranslate';
-
-interface Review {
-  id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  imgUrl: string;
-  rating: number;
-}
+import MovieListItem from '@/components/MovieListItem';
+import { Review } from '@/types/Review';
 
 interface MovieListProps {
   initialReviews: Review[];
+  order: string;
   className?: string;
 }
 
-const MovieList: React.FC<MovieListProps> = ({ initialReviews, className = '' }) => {
+const MovieList: React.FC<MovieListProps> = ({ initialReviews, order, className = '' }) => {
   const t = useTranslate();
   const [reviews, setReviews] = useState<Review[]>(initialReviews);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
+  const fetchReviews = async (offset: number, limit: number, order: string) => {
+    const url = `https://learn.codeit.kr/api/film-reviews?order=${order}&offset=${offset}&limit=${limit}`;
+    console.log('Fetching reviews from URL:', url); // 요청 URL 로그
+    try {
+      const response = await axios.get(url);
+      console.log('API Response:', response); // API 응답 로그
+      return response.data.reviews;
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+      throw error;
+    }
+  };
+
   const handleLoadMore = async () => {
     if (loading) return;
     setLoading(true);
     try {
-      const response = await axios.get(`/api/reviews?page=${page + 1}`);
-      const newReviews = response.data.reviews;
-      if (newReviews.length > 0) {
+      const newReviews = await fetchReviews(reviews.length, 6, order);
+      console.log('Loaded reviews:', newReviews); // API 응답 데이터 확인
+      if (newReviews.length > 0) { //가져온 데이터가 0보다 클때 더보기
         setReviews((prevReviews) => [...prevReviews, ...newReviews]);
         setPage((prevPage) => prevPage + 1);
       } else {
@@ -46,38 +50,33 @@ const MovieList: React.FC<MovieListProps> = ({ initialReviews, className = '' })
     }
   };
 
-
-  function formatDate(value: string) {
-    const date = new Date(value);
-    return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
-  }
+  useEffect(() => {
+    (async () => {
+      try {
+        const initialReviews = await fetchReviews(0, 6, order);
+        setReviews(initialReviews);
+      } catch (error) {
+        console.error('Error during initial fetch:', error);
+      }
+    })();
+  }, [order]);
 
   return (
-    <div>
+    <div className={className}>
       <ul className={`${styles.movieList} ${className}`}>
         {reviews && reviews.map((item) => (
-          <li key={item.id}>
-            <Link href={`/films/${item.id}`}>
-              <div className={styles.posterContainer}>
-                <Image fill src={item.imgUrl} alt={item.title} />
-              </div>
-            </Link>
-            <div className={styles.info}>
-              <h2 className={styles.title}>{item.title}</h2>
-              <div className={styles.date}>
-                {formatDate(item.createdAt)}
-              </div>
-              <div className={styles.starRatingContainer}>
-                <Rating value={item.rating} />
-              </div>
-            </div>
-          </li>
+          <MovieListItem
+            key={item.id}
+            item={item}
+          />
         ))}
       </ul>
       {hasMore && (
-        <button onClick={handleLoadMore} disabled={loading} className={styles.loadMoreButton}>
-          {loading ? 'Loading...' : t('load more')}
-        </button>
+        <div className={styles.loadMoreContainer}>
+          <button onClick={handleLoadMore} disabled={loading} className={styles.loadMoreButton}>
+            {loading ? 'Loading...' : t('load more')} 
+          </button>
+        </div>
       )}
     </div>
   );
