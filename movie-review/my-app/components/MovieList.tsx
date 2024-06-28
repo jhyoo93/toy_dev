@@ -11,7 +11,7 @@ interface MovieListProps {
   className?: string;
 }
 
-const MovieList: React.FC<MovieListProps> = ({ initialReviews, order, className = '' }) => {
+const MovieList = ({ initialReviews, order, className = '' }: MovieListProps) => {
   const t = useTranslate();
   const [reviews, setReviews] = useState<Review[]>(initialReviews);
   const [page, setPage] = useState(1);

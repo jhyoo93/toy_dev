@@ -8,7 +8,7 @@ interface RatingInputProps {
   onChange: (name: string, value: number) => void;
 }
 
-const RatingInput: React.FC<RatingInputProps> = ({ name, value, onChange }) => {
+const RatingInput = ({ name, value, onChange }: RatingInputProps) => {
   const [rating, setRating] = useState<number>(value);
 
   const handleSelect = (nextValue: number) => {
@@ -23,9 +23,6 @@ const RatingInput: React.FC<RatingInputProps> = ({ name, value, onChange }) => {
     <Rating
       className="RatingInput"
       value={rating}
-      onSelect={handleSelect}
-      onHover={setRating}
-      onMouseOut={handleMouseOut}
     />
   );
 }

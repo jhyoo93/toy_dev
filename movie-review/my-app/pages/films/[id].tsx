@@ -13,7 +13,7 @@ interface Params extends ParsedUrlQuery {
     id: string;
   }
 
-const FilmDetail: React.FC<FilmDetailProps> = ({ film }) => {
+const FilmDetail = ({ film }: FilmDetailProps) => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>{film.title}</h1>

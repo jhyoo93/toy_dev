@@ -17,7 +17,7 @@ interface HomeProps {
   initialOrder: string;
 }
 
-const Home: React.FC<HomeProps> = ({ initialReviews, initialOrder }) => {
+const Home = ({ initialReviews, initialOrder }: HomeProps) => {
   const [order, setOrder] = useState(initialOrder);
 
   const handleOrderChange = (newOrder: string) => {

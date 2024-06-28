@@ -9,7 +9,7 @@ interface MovieListItemProps {
     item: Review;
   }
 
-const MovieListItem: React.FC<MovieListItemProps> = ({ item }) => {
+  const MovieListItem = ({ item }: MovieListItemProps) => {
     return (
       <li className={styles.movieListItem} key={item.id}>
         <Link href={`/films/${item.id}`}>
