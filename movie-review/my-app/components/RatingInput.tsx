@@ -12,7 +12,7 @@ const RatingInput: React.FC<RatingInputProps> = ({ name, value, onChange }) => {
   const [rating, setRating] = useState<number>(value);
 
   const handleSelect = (nextValue: number) => {
-    console.log('test');
+    console.log('test'); 
     onChange(name, nextValue);
   };
 
