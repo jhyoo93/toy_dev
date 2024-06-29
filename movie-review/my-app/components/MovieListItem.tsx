@@ -3,24 +3,30 @@ import styles from '../styles/MovieList.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import Rating from "./Rating";
-import { Review } from "@/types/Review";
+import { Movie } from "@/types/Movie";
 
 interface MovieListItemProps {
-    item: Review;
-  }
+  movie: Movie;
+}
 
-  const MovieListItem = ({ item }: MovieListItemProps) => {
+const MovieListItem = ({ movie }: MovieListItemProps) => {
     return (
-      <li className={styles.movieListItem} key={item.id}>
-        <Link href={`/films/${item.id}`}>
+      <li className={styles.movieListItem} key={movie.id}>
+        <Link href={`/films/${movie.id}`}>
           <div className={styles.posterContainer}>
-            <Image fill src={item.imgUrl} alt={item.title} objectFit="cover"/>
+            <Image 
+              fill 
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
+              alt={movie.title} 
+              objectFit="cover"
+            />
           </div>
         </Link>
         <div className={styles.info}>
-          <h2 className={styles.title}>제목 : {item.title}</h2>
+          <h2 className={styles.title}>제목 : {movie.title}</h2>
+          <h2 className={styles.title}>개봉일: {movie.release_date}</h2>
           <div className={styles.starRatingContainer}>
-            별점 : <Rating value={item.rating} />
+            평점 : <Rating value={Math.round(movie.vote_average / 2)} /> {/* 평점을 1~5로 변환 */}
           </div>
         </div>
       </li>

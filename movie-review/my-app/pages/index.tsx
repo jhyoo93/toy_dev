@@ -1,73 +1,83 @@
 import { GetServerSideProps } from 'next';
 import MovieList from '@/components/MovieList';
 import styles from '@/styles/Home.module.css';
-import axios from '@/lib/movie/axios';  // axios를 사용
 import { useState } from 'react';
-
-interface Review {
-  id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  imgUrl: string;
-}
+import { Movie } from '@/types/Movie';
+import SearchForm from '@/components/SearchForm';
+import tmdbApi from '@/lib/movie/axios';
+import Head from 'next/head';
 
 interface HomeProps {
-  initialReviews: Review[];
-  initialOrder: string;
+  initialMovies: Movie[];
 }
 
-const Home = ({ initialReviews, initialOrder }: HomeProps) => {
-  const [order, setOrder] = useState(initialOrder);
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+  const response = await tmdbApi.get('/movie/popular', {
+    params: {
+      language: 'ko-KR',
+      page: 1,
+    },
+  });
 
-  const handleOrderChange = (newOrder: string) => {
-    setOrder(newOrder);
+  const initialMovies = response.data.results.slice(0, 9);
+
+  return {
+    props: {
+      initialMovies,
+    },
+  };
+};
+
+
+const Home = ({ initialMovies }: HomeProps) => {
+  const [movies, setMovies] = useState(initialMovies);
+  const [page, setPage] = useState(2);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
+  const loadMoreMovies = async () => {
+    setLoading(true);
+    try {
+      const response = await tmdbApi.get('/movie/popular', {
+        params: {
+          language: 'ko-KR',
+          page: page,
+        },
+      });
+      const newMovies = response.data.results.slice(0, 9);
+      if (newMovies.length === 0) {
+        setHasMore(false);
+      } else {
+        setMovies((prevMovies: Movie[]) => [...prevMovies, ...newMovies]);
+        setPage((prevPage) => prevPage + 1);
+      }
+    } catch (error) {
+      console.error('Error fetching more movies:', error);
+    }
+    setLoading(false);
   };
 
   return (
     <>
-      <div className={styles.sorts}>
-        <button
-          className={`${styles.sortButton} ${order === 'createdAt' ? styles.sortButtonSelected : ''}`}
-          onClick={() => handleOrderChange('createdAt')}
-        >
-          최신순
-        </button>
-        <button
-          className={`${styles.sortButton} ${order === 'rating' ? styles.sortButtonSelected : ''}`}
-          onClick={() => handleOrderChange('rating')}
-        >
-          베스트순
-        </button>        
+      <div className={styles.searchResult}>
+        <Head>
+          <title>영화 - MOVIE</title>
+        </Head>
       </div>
-      <MovieList initialReviews={initialReviews} order={order} className={styles.reviewList} />
+      <div className={styles.searchContainer}>
+        <SearchForm/>
+      </div>
+      <MovieList movies={movies} className={styles.reviewList} />
+      {hasMore && (
+        <div className={styles.loadMoreContainer}>
+          <button onClick={loadMoreMovies} disabled={loading} className={styles.loadMoreButton}>
+            {loading ? '로딩 중...' : '더보기'}
+          </button>
+        </div>
+      )}
     </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { order = 'createdAt' } = context.query; // 기본값을 'createdAt'으로 설정
-  const url = `https://learn.codeit.kr/api/film-reviews?order=${order}&offset=0&limit=6`;
-  console.log('Fetching initial reviews from URL:', url); // 요청 URL 로그
-  try {
-    const response = await axios.get(url);
-    const initialReviews = response.data.reviews;
-
-    return {
-      props: {
-        initialReviews,
-        initialOrder: order,
-      },
-    };
-  } catch (error) {
-    console.error('Error fetching initial reviews:', error);
-    return {
-      props: {
-        initialReviews: [],
-        initialOrder: order,
-      },
-    };
-  }
-};
 
 export default Home;

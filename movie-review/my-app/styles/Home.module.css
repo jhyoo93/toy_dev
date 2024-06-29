@@ -50,3 +50,29 @@
   align-items: center;
   margin-bottom: 0px;
 }
+
+.loadMoreButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #e0123b;
+  color: #fff;
+  align-self: flex-end;
+  margin-top: 20px;
+}
+
+.loadMoreContainer {
+  display: flex;
+  justify-content: flex-end; /* 변경된 부분 */
+  width: 100%;
+  margin-top: 20px;
+}
+
+.searchContainer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 20px;
+  padding-bottom: 10px;
+}

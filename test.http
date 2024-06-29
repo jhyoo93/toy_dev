@@ -1,1 +1,1 @@
-GET https://learn.codeit.kr/api/film-reviews?id=23
+GET https://api.themoviedb.org/3/movie/550?api_key=cffe2e940e26194de2330166dbfa2ccf

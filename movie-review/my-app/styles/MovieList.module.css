@@ -53,23 +53,6 @@
   font-size: 16px;
 }
 
-.loadMoreContainer {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-
-.loadMoreButton {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #e0123b;
-  color: #fff;
-  align-self: center;
-  margin-top: 20px;
-}
-
 :global(.light) .starRating {
   color: #1f1f1f;
 }
