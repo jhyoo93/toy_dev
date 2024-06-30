@@ -17,11 +17,34 @@
   background-image: url("/setting-white.svg");
   background-size: cover;
   background-repeat: no-repeat;
-  width: 20px;
-  height: 20px;
+  width: 5px;
+  height: 5px;
+  padding: 10px;
   text-indent: -9999px;
 }
 
 :global(.light) .setting {
   background-image: url("/setting-black.svg");
+}
+
+.navLinks {
+  display: flex;
+  gap: 20px; /* 간격을 띄우기 위해 추가 */
+}
+
+.navLink {
+  margin-right: 15px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.navLink:last-child {
+  margin-right: 0;
+}
+
+.settingsIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 15px; /* 아이콘과 텍스트 사이에 간격 추가 */
 }
