@@ -30,16 +30,6 @@
   background-color: transparent;
 }
 
-.sortButton:not(:disabled) {
-  cursor: pointer;
-}
-
-.sortButtonSelected {
-  border-radius: 0 10px 0 10px;
-  color: #fff;
-  background-color: #e0123b;
-}
-
 .textRightAlign {
   text-align: right;
 }

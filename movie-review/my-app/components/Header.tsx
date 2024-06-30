@@ -12,6 +12,7 @@ export default function Header() {
             <Image src={logoImg} width={150} height={26} alt="Logo" />
           </Link>
           <Link className={styles.setting} href="/setting">설정</Link>
+          <Link href="/register">회원가입</Link>
         </Container>      
     </header>
   );
