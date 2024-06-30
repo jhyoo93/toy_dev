@@ -1,13 +1,17 @@
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGODB_URI as string;
+if (!process.env.MONGODB_URI) {
+  throw new Error('.env.local 파일에 Mongo URI를 확인해주세요.');
+}
+
+const uri: string = process.env.MONGODB_URI;
 const options = {};
 
-let client;
+let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
-if (!uri) {
-  throw new Error('Please add your Mongo URI to .env.local');
+declare global {
+  var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
 if (process.env.NODE_ENV === 'development') {

@@ -1,10 +1,11 @@
 .input {
   border: none;
   border-radius: 9999px;
-  background-color: #505050;
+  background-color: #d3d1d1;
   padding: 12px 30px;
   color: #f9f9f9;
   font-size: 18px;
+  width: 300px;
 }
 
 :global(.light) .input {
@@ -13,7 +14,7 @@
 }
 
 .input::placeholder {
-  color: #b5b5b5;
+  color: #464545;
 }
 
 .button {

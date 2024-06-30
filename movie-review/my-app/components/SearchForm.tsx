@@ -29,7 +29,7 @@ export default function SearchForm({ initialValue = '' }: SearchFormProps) {
             className={styles.input}
             name="q"
             value={value}
-            placeholder="영화를 검색해보세요."
+            placeholder="영화를 검색해보세요"
             onChange={handleChange}
           />
           <button className={styles.button} type="submit">검색</button>
