@@ -2,40 +2,41 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
 import clientPromise from '@/db/dbConnect';
 
+const saltRounds = 10;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
-    return res.status(405).end();
+    res.setHeader('Allow', ['POST']);
+    return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  const { email, username, password, phone } = req.body
-  
-    if (!email || !username || !password || !phone) {
-      return res.status(400).json({ message: 'All fields are required' });
-    }
+  const { username, password, email, phone } = req.body;
 
-    try {
-      const client = await clientPromise;
-      const db = client.db('mydatabase');
+  if (!username || !password || !email || !phone) {
+    return res.status(400).json({ message: 'All fields are required.' });
+  }
 
-      const existingUser = await db.collection('users').findOne({ email });
-      if (existingUser) {
-        return res.status(400).json({ message: 'User already exists' });
-      }
+  try {
+    const client = await clientPromise;
+    const db = client.db('mydatabase');
+    const usersCollection = db.collection('users');
 
-      const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const createdAt = new Date();
+    const updatedAt = new Date();
 
-      const user = {
-        email,
-        username,
-        password: hashedPassword,
-        phone,
-      };
+    await usersCollection.insertOne({
+      username,
+      password: hashedPassword,
+      email,
+      phone,
+      createdAt,
+      updatedAt,
+    });
 
-      const result = await db.collection('users').insertOne(user);
-      res.status(201).json({ message: 'User created', result });
-    } catch (error) {
-      console.error('Error creating user:', error);
-      res.status(500).json({ message: 'Error creating user', error });
-    }
+    res.status(201).json({ message: 'User created' });
+  } catch (error) {
+    console.error('Error creating user:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 }
