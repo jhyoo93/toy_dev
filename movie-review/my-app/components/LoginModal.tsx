@@ -1,55 +1,55 @@
+import { useAuthStore } from '@/store/useAuthStore';
 import styles from '@/styles/LoginModal.module.css';
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useMutation } from 'react-query';
 
 interface LoginModalProps {
-    isOpen: boolean;
-    onClose: () => void;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
+    const { setUser } = useAuthStore();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+   
+    const mutation = useMutation(
+        (data: { email: string; password: string }) => axios.post('/api/auth/login', data),
+        {
+          onSuccess: (data) => {
+            const { token, user } = data.data;
+            setUser({ token, ...user });
+            onClose();
+          },
+          onError: (error) => {
+            console.error('Error during login:', error);
+          },
+        }
+    );
 
-    const [formData, setFormData] = useState({ email: '', password: '' });
-    const [error, setError] = useState('');
-
-    if(!isOpen) return null;
-
-    // input창 onChange이벤트
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      setFormData(prevState => ({ ...prevState, [name]: value }));
-    };    
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleLogin = async (e: React.FormEvent) => {
       e.preventDefault();
-
-      try {
-        const res = await axios.post('/api/login', formData);
-
-        alert('로그인 성공!');
-        onClose(); // 모달창 닫기
-      } catch (e) {
-        console.error('There was an error!', error);
-        setError('로그인에 실패했습니다. 다시 시도해주세요.');
-      }
+      mutation.mutate({ email, password });
     };
+
+    if (!isOpen) return null;
 
     return (
         <>
             <div className={styles.backdrop} onClick={onClose}></div>
             <div className={styles.modal}>               
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleLogin}>
                     <h2>로그인</h2>
-                    {error && <p className={styles.error}>{error}</p>}
                     <div className={styles.formGroup}>
-                        <label>
-                            이메일 <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-                        </label>
+                        <label>이메일 </label>
+                        <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                        
                     </div>
                     <div className={styles.formGroup}>
-                        <label>
-                            비밀번호 <input type="password" name="password" value={formData.password} onChange={handleChange} required />
-                        </label>
+                        <label>비밀번호</label>
+                        <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                        
                     </div>
                     <button className={styles.loginButton} type="submit">로그인</button>
                     <button className={styles.closeButton} onClick={onClose}>X</button>

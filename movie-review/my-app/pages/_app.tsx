@@ -4,6 +4,9 @@ import Header from "@/components/Header";
 import { ThemeProvider } from "@/lib/ThemeContext";
 import Container from "@/components/Container";
 import Head from "next/head";
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -12,12 +15,14 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>MOVIEW</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ThemeProvider>
-        <Header />
-        <Container page>
-          <Component {...pageProps} />
-        </Container>
-      </ThemeProvider>  
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <Header />
+          <Container page>
+              <Component {...pageProps} />
+          </Container>
+        </ThemeProvider>  
+      </QueryClientProvider>
     </>
   );
 }
