@@ -4,7 +4,7 @@ import styles from '@/styles/Home.module.css';
 import { useState } from 'react';
 import { Movie } from '@/types/Movie';
 import SearchForm from '@/components/SearchForm';
-import tmdbApi from '@/lib/movie/axios';
+import tmdbApi from '@/lib/axios';
 import Head from 'next/head';
 
 interface HomeProps {

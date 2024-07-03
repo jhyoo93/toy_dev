@@ -1,6 +1,4 @@
 import styles from '@/styles/MovieList.module.css';
-import { useEffect, useState } from 'react';
-import useTranslate from '@/hooks/useTranslate';
 import MovieListItem from '@/components/MovieListItem';
 import { Movie } from '@/types/Movie';
 

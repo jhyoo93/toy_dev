@@ -3,13 +3,13 @@ import Container from '@/components/Container';
 import logoImg from '@/public/logo.png';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
 import LoginModal from './LoginModal';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { useState } from 'react';
+import RegisterForm from './RegisterForm';
 
 export default function Header() {
-  const { user, clearUser } = useAuthStore();
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const { isRegisterModalOpen, isLoginModalOpen, toggleRegisterModal, toggleLoginModal, user, clearUser } = useAuthStore();
 
   const handleLogout = () => {
     clearUser();
@@ -30,13 +30,13 @@ export default function Header() {
             </> 
           ) : (
             <>
-              <Link className={styles.navLink} href="/register">회원가입</Link>
-              <a className={styles.navLink} onClick={() => setIsLoginOpen(true)}>로그인</a>
+              <a className={styles.navLink} href="/register">회원가입</a>
+              <a className={styles.navLink} onClick={toggleLoginModal}>로그인</a>
             </>
           )}      
         </div>
       </Container>
-      {isLoginOpen && <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />}    
+      {isLoginModalOpen && <LoginModal isOpen={isLoginModalOpen} onClose={toggleLoginModal} />}    
     </header>
   );
 }

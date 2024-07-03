@@ -2,8 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
 import clientPromise from '@/db/dbConnect';
 
-const saltRounds = 10;
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
@@ -13,30 +11,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { username, password, email, phone } = req.body;
 
   if (!username || !password || !email || !phone) {
-    return res.status(400).json({ message: 'All fields are required.' });
+    return res.status(400).json({ message: '모든 정보를 입력해 주세요.' });
   }
 
   try {
     const client = await clientPromise;
     const db = client.db('mydatabase');
-    const usersCollection = db.collection('users');
 
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const createdAt = new Date();
-    const updatedAt = new Date();
+    const existingUser = await db.collection('users').findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: '이미 존재하는 이메일입니다.' });
+    }
 
-    await usersCollection.insertOne({
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = {
       username,
-      password: hashedPassword,
       email,
+      password: hashedPassword,
       phone,
-      createdAt,
-      updatedAt,
-    });
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
 
-    res.status(201).json({ message: 'User created' });
+    await db.collection('users').insertOne(newUser);
+
+    return res.status(201).json({ message: '회원가입이 완료되었습니다.' });
   } catch (error) {
-    console.error('Error creating user:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Error during user registration:', error);
+    return res.status(500).json({ message: '서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.' });
   }
 }
