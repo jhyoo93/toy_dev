@@ -7,7 +7,7 @@ export default function () {
   const router = useRouter();
 
   const handleSuccess = () => {
-    router.push('/'); // Redirect to the main page or login page
+    router.push('/');
   };
 
 

@@ -4,8 +4,7 @@ import clientPromise from '@/db/dbConnect';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).end(`Method ${req.method} Not Allowed`);
+    return res.status(405).end();
   }
 
   const { username, password, email, phone } = req.body;

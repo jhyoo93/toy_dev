@@ -9,7 +9,7 @@ import { useState } from 'react';
 import RegisterForm from './RegisterForm';
 
 export default function Header() {
-  const { isRegisterModalOpen, isLoginModalOpen, toggleRegisterModal, toggleLoginModal, user, clearUser } = useAuthStore();
+  const { isLoginModalOpen, toggleLoginModal, user, clearUser } = useAuthStore();
 
   const handleLogout = () => {
     clearUser();

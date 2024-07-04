@@ -4,6 +4,9 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -15,8 +18,15 @@ interface LoginData {
   password: string;
 }
 
+const schema = yup.object().shape({
+  email: yup.string().email('유효한 이메일을 입력해주세요').required('이메일을 입력해주세요'),
+  password: yup.string().required('비밀번호를 입력해주세요'),
+});
+
 const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginData>();
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginData>({
+      resolver: yupResolver(schema),
+    });
     const [ loginError, setLoginError ] = useState('');
     const { setUser } = useAuthStore();
     
@@ -56,6 +66,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                     <button className={styles.loginButton} type="submit">로그인</button>
                     <button className={styles.closeButton} onClick={onClose}>X</button>
                 </form>
+                {loginError && <p className={styles.error}>{loginError}</p>}
             </div>
         </>
     );
