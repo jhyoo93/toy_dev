@@ -10,7 +10,6 @@
 
 .posterContainer {
   aspect-ratio: 27 / 40;
-  width: 400px;
   height: 600px;
   position: relative;
 }

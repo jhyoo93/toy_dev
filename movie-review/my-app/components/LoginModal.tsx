@@ -28,13 +28,17 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
       resolver: yupResolver(schema),
     });
     const [ loginError, setLoginError ] = useState('');
-    const { setUser } = useAuthStore();
+    const { setUser, toggleLoginModal } = useAuthStore();
     
     const mutation = useMutation((data: LoginData) => axios.post('/api/login', data), {
+      // 로그인 성공시
       onSuccess: (response) => {
+        const token = response.data.token;
+        localStorage.setItem('authToken', token);
         setUser(response.data.user);
-        onClose();
+        toggleLoginModal();
       },
+      // 로그인 실패시
       onError: (error) => {
         setLoginError('로그인에 실패했습니다. 다시 시도해주세요.');
         console.error('로그인 실패:', error);
@@ -51,7 +55,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
         <>
             <div className={styles.backdrop} onClick={onClose}></div>
             <div className={styles.modal}>               
-            <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                     <h2>로그인</h2>
                     <div className={styles.formGroup}>
                         <label>이메일 </label>
@@ -64,7 +68,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                         {errors.password && <p className={styles.error}>{errors.password.message}</p>}
                     </div>
                     <button className={styles.loginButton} type="submit">로그인</button>
-                    <button className={styles.closeButton} onClick={onClose}>X</button>
+                    <button className={styles.closeButton} onClick={onClose}>X</button>                  
                 </form>
                 {loginError && <p className={styles.error}>{loginError}</p>}
             </div>
