@@ -19,7 +19,7 @@
   background-repeat: no-repeat;
   width: 5px;
   height: 5px;
-  padding: 10px;
+  padding: 13px;
   text-indent: -9999px;
 }
 
@@ -29,14 +29,15 @@
 
 .navLinks {
   display: flex;
-  gap: 20px; /* 간격을 띄우기 위해 추가 */
+  gap: 10px; /* 간격을 띄우기 위해 추가 */
 }
 
 .navLink {
+  padding-top: 6px;
   margin-right: 15px;
   color: #fff;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .navLink:last-child {
@@ -47,4 +48,14 @@
   width: 20px;
   height: 20px;
   margin-right: 15px; /* 아이콘과 텍스트 사이에 간격 추가 */
+}
+
+.userImage {
+  border-radius: 50%;
+  margin-right: 0px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
 }

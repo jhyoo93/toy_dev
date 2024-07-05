@@ -4,6 +4,7 @@ interface User {
   id: string;
   username: string;
   email: string;
+  image?: string;
 }
   
 interface AuthState {
@@ -18,7 +19,7 @@ interface AuthState {
 }
   
 export const useAuthStore = create<AuthState>((set) => ({
-  
+
   user: null,
   setUser: (user: User) => {
     set({ user });

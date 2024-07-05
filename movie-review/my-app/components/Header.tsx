@@ -1,4 +1,5 @@
 import styles from '@/styles/Header.module.css';
+import defaultUserImg from '@/public/default-user.png';
 import Container from '@/components/Container';
 import logoImg from '@/public/logo.png';
 import Link from 'next/link';
@@ -52,6 +53,15 @@ export default function Header() {
         <div className={styles.navLinks}> 
           {user ? (
             <>              
+              <span className={styles.userInfo}>
+                  <Image
+                    src={user.image || defaultUserImg}
+                    width={32}
+                    height={32}
+                    alt="User Image"
+                    className={styles.userImage}
+                  />
+              </span>
               <Link className={styles.navLink} href="/myPage"><span>{user.username}님</span></Link>
               <a className={styles.navLink} onClick={handleLogout}>로그아웃</a>
             </> 
@@ -61,7 +71,6 @@ export default function Header() {
               <a className={styles.navLink} onClick={toggleLoginModal}>로그인</a>
             </>
           )}      
-          <Link className={styles.setting} href="/setting">설정</Link>
         </div>
       </Container>
       {isLoginModalOpen && <LoginModal isOpen={isLoginModalOpen} onClose={toggleLoginModal} />}    
