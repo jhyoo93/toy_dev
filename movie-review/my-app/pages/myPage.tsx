@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 const MyPage = () => {
 
-    const {user, clearUser } = useAuthStore();
+    const { user } = useAuthStore();
     const router = useRouter();
 
     useEffect(() => {

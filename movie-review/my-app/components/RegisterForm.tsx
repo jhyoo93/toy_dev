@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useAuthStore } from "@/stores/useAuthStore";
+import Image from "next/image";
+import defaultUserImg from '@/public/default-user.png';
 
 interface RegisterFormProps {
   onSuccess: () => void;
@@ -40,30 +42,42 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
 
   return (
     <div className={styles.registerForm}>
-      <h2>회원가입</h2>
+      <h1>회원가입</h1>
+      <br></br>
+      <br></br>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <div className={styles.userInfo}>
+          <Image 
+            src={defaultUserImg} // 사용자 이미지가 없으면 기본 이미지 사용
+            alt="User Image"
+            className={styles.userImage}
+            width={150}
+            height={150}
+            />
+        </div>
+        <span className={styles.inputRequired}>* 필수입력사항 입니다</span>
         <div className={styles.formGroup}>
-          <label>사용자 이름</label>
+          <label>사용자 이름   <span className={styles.required}>*</span></label>
           <input {...register('username')} />
           {errors.username && <p className={styles.error}>{errors.username.message}</p>}
         </div>
         <div className={styles.formGroup}>
-          <label>이메일</label>
+          <label>이메일   <span className={styles.required}>*</span></label>
           <input {...register('email')} />
           {errors.email && <p className={styles.error}>{errors.email.message}</p>}
         </div>
         <div className={styles.formGroup}>
-          <label>비밀번호</label>
+          <label>비밀번호   <span className={styles.required}>*</span></label>
           <input type="password" {...register('password')} />
           {errors.password && <p className={styles.error}>{errors.password.message}</p>}
         </div>
         <div className={styles.formGroup}>
-          <label>비밀번호 확인</label>
+          <label>비밀번호 확인   <span className={styles.required}>*</span></label>
           <input type="password" {...register('confirmPassword')} />
           {errors.confirmPassword && <p className={styles.error}>{errors.confirmPassword.message}</p>}
         </div>
         <div className={styles.formGroup}>
-          <label>전화번호</label>
+          <label>전화번호   <span className={styles.required}>*</span></label>
           <input {...register('phone')} />
           {errors.phone && <p className={styles.error}>{errors.phone.message}</p>}
         </div>
