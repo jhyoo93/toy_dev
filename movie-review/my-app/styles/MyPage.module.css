@@ -16,6 +16,12 @@
     margin-bottom: 5px;
   }
 
+  .userImageContainer {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+
   .userImage {
     width: 200px;
     height: 200px;
@@ -23,3 +29,20 @@
     background-color: #ffffff;
   }
   
+  .userImageContainer input {
+    display: none;
+  }
+  
+  .editIcon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #00c853;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
