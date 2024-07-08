@@ -37,6 +37,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
         localStorage.setItem('authToken', token);
         setUser(response.data.user);
         toggleLoginModal();
+        window.location.reload();
       },
       // 로그인 실패시
       onError: (error) => {

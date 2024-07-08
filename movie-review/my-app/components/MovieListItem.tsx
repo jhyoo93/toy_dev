@@ -1,4 +1,3 @@
-import { useState, useTransition } from "react";
 import styles from '../styles/MovieList.module.css';
 import Link from 'next/link';
 import Image from 'next/image';

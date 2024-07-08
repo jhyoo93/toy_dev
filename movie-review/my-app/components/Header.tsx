@@ -35,14 +35,14 @@ export default function Header() {
     }
   }, [setUser, clearUser]);
 
-  const handleLogout = () => {
-    if(!confirm('로그아웃 하시겠습니까?')) {
-      return;
-    } 
-    clearUser();
-    // 로그아웃시 토큰 삭제
-    localStorage.removeItem('authToken');
-  };
+  // const handleLogout = () => {
+  //   if(!confirm('로그아웃 하시겠습니까?')) {
+  //     return;
+  //   } 
+  //   clearUser();
+  //   // 로그아웃시 토큰 삭제
+  //   localStorage.removeItem('authToken');
+  // };
 
   return (
     <header className={styles.header}>
@@ -63,7 +63,7 @@ export default function Header() {
                   />
               </span>
               <Link className={styles.navLink} href="/myPage"><span>{user.username}님</span></Link>
-              <a className={styles.navLink} onClick={handleLogout}>로그아웃</a>
+              {/* <a className={styles.navLink} onClick={handleLogout}>로그아웃</a> */}
             </> 
           ) : (
             <>

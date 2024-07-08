@@ -4,6 +4,7 @@ interface User {
   id: string;
   username: string;
   email: string;
+  phone: string;
   image?: string;
 }
   
@@ -22,8 +23,8 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   user: null,
   setUser: (user: User) => {
-    set({ user });
-    localStorage.setItem('user', JSON.stringify(user));
+    set({ user }),
+    localStorage.setItem('user', JSON.stringify(user))
   },
   clearUser: () => {
     set({ user: null });
