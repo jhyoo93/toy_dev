@@ -12,12 +12,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const { filePath, userId } = req.body;
+  console.log('filePath:', filePath, 'userId:', userId);
 
   if (!filePath || !userId) {
     return res.status(400).json({ message: '파일 경로와 사용자 ID가 필요합니다' });
   }
 
   const absolutePath = path.join(process.cwd(), 'public', filePath);
+  console.log('absolutePath:', absolutePath);
 
   try {
     fs.unlinkSync(absolutePath);

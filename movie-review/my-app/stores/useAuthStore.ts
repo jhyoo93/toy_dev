@@ -7,7 +7,7 @@ interface User {
   phone: string;
   image?: string;
 }
-  
+
 interface AuthState {
   user: User | null;
   setUser: (user: User) => void;
@@ -18,13 +18,12 @@ interface AuthState {
   toggleRegisterModal: () => void;
   initializeAuth: () => void;
 }
-  
-export const useAuthStore = create<AuthState>((set) => ({
 
+export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   setUser: (user: User) => {
-    set({ user }),
-    localStorage.setItem('user', JSON.stringify(user))
+    set({ user });
+    localStorage.setItem('user', JSON.stringify(user));
   },
   clearUser: () => {
     set({ user: null });
@@ -42,5 +41,4 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ user: JSON.parse(user) });
     }
   },
-
 }));
