@@ -15,45 +15,33 @@
 }
 
 .info {
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   justify-content: center;
   gap: 8px;
 }
 
-.englishTitle {
-  margin: 0;
-  color: #b5b5b5;
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 20px;
-}
-
-:global(.light) .englishTitle {
-  color: #505050;
+.infoTable {
+  
+  margin: -15px -40px;
+  border-spacing: 60px 55px;
+  
 }
 
 .title {
   margin: 5px 0 20px;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 30px;
   line-height: 35px;
-}
-
-.infoTable {
-  margin: -15px -40px;
-  border-spacing: 40px 45px;
+  text-align: center;
 }
 
 .infoTable th {
   color: #b5b5b5;
-  font-weight: 400;
+  font-weight: 450;
   font-size: 18px;
-  text-align: left;
-}
-
-:global(.light) .infoTable th {
-  color: #505050;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
 }
 
 .starRating {
@@ -74,7 +62,7 @@
   cursor: pointer;
   background-color: #e0123b;
   color: #fff;
-  align-self: center;
+
 }
 
 .description {
@@ -90,10 +78,6 @@
   font-size: 18px;
   line-height: 38px;
   text-decoration: underline;
-}
-
-:global(.light) .readMore {
-  color: #505050;
 }
 
 .reviewSections {
@@ -119,10 +103,6 @@
   border-radius: 10px;
   background: #1f1f1f;
   padding: 25px;
-}
-
-:global(.light) .reviewForm {
-  background-color: #f9f9f9;
 }
 
 .dropdown {

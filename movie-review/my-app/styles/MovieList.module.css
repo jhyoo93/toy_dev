@@ -7,7 +7,10 @@
 }
 
 .info {
-  padding: 10px 20px;
+  display: block;
+  border-radius: 10px;
+  width: 300px;
+  padding: 10px;
 }
 
 .titleRatingContainer {

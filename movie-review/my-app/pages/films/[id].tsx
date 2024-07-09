@@ -55,18 +55,18 @@ const FilmDetail = ({ movie }: FilmDetailProps) => {
  
 
   return (
-    <div className={styles.header}>
+    <div>
+      <div className={styles.header}>
         <div className={styles.posterContainer}>
             <Image 
                 fill 
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
                 alt={movie.title} 
-              />
-            <div className={styles.loadMoreContainer}>       
-        </div>
+              />           
         </div>
         <div className={styles.info}>
             <h1 className={styles.title}>{movie.title}</h1>
+            <hr/>
             <table className={styles.infoTable}>
                 <tbody>
                     <tr>
@@ -84,13 +84,15 @@ const FilmDetail = ({ movie }: FilmDetailProps) => {
                         {movie.vote_average} / 10
                       </td>
                     </tr>
-                    <tr>
-                        <th></th>    
-                        <td><button className={styles.listButton} onClick={goList}>목록으로</button></td>
-                    </tr>                   
                 </tbody>
             </table>
-        </div>
+          </div>
+      </div>
+      <br/><br/><br/><br/>
+      댓글 추가 예정
+      <div>
+        <button className={styles.listButton} onClick={goList}>목록으로</button>
+      </div>
     </div>
   );
 };

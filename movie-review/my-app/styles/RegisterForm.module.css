@@ -1,83 +1,90 @@
 /* styles/RegisterForm.module.css */
 
 .registerForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 50px auto;
-    padding: 40px;
-    max-width: 500px;
-    background-color: #1e1e1e;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px auto;
+  padding: 40px;
+  max-width: 500px;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   
-  .registerForm h1 {
-    font-size: 32px;
-    color: #fff;
-    margin-bottom: 30px;
-  }
-  
-  .registerForm input {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 30px;
-    margin-top: 5px;
-    border: 1px solid #555;
-    border-radius: 5px;
-    background-color: #333;
-    color: #fff;
-    font-size: 18px;
-  }
-  
-  .registerForm input::placeholder {
-    color: #aaa;
-  }
-  
-  .registerForm button {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 10px;
-    background-color: #e0123b;
-    color: #fff;
-    font-size: 18px;
-    cursor: pointer;
-  }
-  
-  .registerForm button:hover {
-    background-color: #c10f35;
-  }
-  
-  .registerForm a {
-    color: #e0123b;
-    margin-top: 20px;
-    text-decoration: none;
-  }
-  
-  .registerForm a:hover {
-    text-decoration: underline;
-  }
-  
-  .required {
-    color: #f00606;
-  }
+}
 
-  .inputRequired {
-    font-size: 12px;
-    justify-content: right;
-    display: flex;
-    padding-bottom: 30px;
-    padding-left: 250px;
-  }
-  .userInfo {
-    padding-left: 90px;
-    padding-bottom: 60px;
-  }
+.registerForm h1 {
+  font-size: 32px;
+  color: #fff;
+  margin-bottom: 30px;
+}
 
-  .userImage {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background-color: #ffffff;
-  }
+.registerForm input {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 30px;
+  margin-top: 5px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+  font-size: 18px;
+}
+
+.registerForm input::placeholder {
+  color: #aaa;
+}
+
+.registerForm button:hover {
+  background-color: #c10f35;
+}
+
+.registerForm a {
+  color: #e0123b;
+  margin-top: 20px;
+  text-decoration: none;
+}
+
+.registerForm a:hover {
+  text-decoration: underline;
+}
+
+.required {
+  color: #f00606;
+}
+
+.inputRequired {
+  font-size: 12px;
+  justify-content: right;
+  display: flex;
+  padding-bottom: 30px;
+  padding-left: 250px;
+}
+.userInfo {
+  padding-left: 90px;
+  padding-bottom: 60px;
+}
+
+.userImage {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #ffffff;
+}
+
+.button {
+  width: 580px;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: #e0123b;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.formButton{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
