@@ -14,8 +14,6 @@ interface AuthState {
   clearUser: () => void;
   isLoginModalOpen: boolean;
   toggleLoginModal: () => void;
-  isRegisterModalOpen: boolean;
-  toggleRegisterModal: () => void;
   initializeAuth: () => void;
 }
 
@@ -32,8 +30,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
   isLoginModalOpen: false,
   toggleLoginModal: () => set((state) => ({ isLoginModalOpen: !state.isLoginModalOpen })),
-  isRegisterModalOpen: false,
-  toggleRegisterModal: () => set((state) => ({ isRegisterModalOpen: !state.isRegisterModalOpen })),
   initializeAuth: () => {
     const user = localStorage.getItem('user');
     const token = localStorage.getItem('authToken');

@@ -8,6 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const { username, password, email, phone } = req.body;
+  console.log('수신된 요청 데이터:', req.body); // 요청 데이터 출력
 
   if (!username || !password || !email || !phone) {
     return res.status(400).json({ message: '모든 정보를 입력해 주세요.' });

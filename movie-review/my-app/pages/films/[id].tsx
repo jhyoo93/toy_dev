@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { MouseEvent } from 'react';
+import CommentForm from '@/components/CommentForm';
+import CommentList from '@/components/CommentList';
 
 interface FilmDetailProps {
   movie: Movie;
@@ -89,9 +91,12 @@ const FilmDetail = ({ movie }: FilmDetailProps) => {
           </div>
       </div>
       <br/><br/><br/><br/>
-      댓글 추가 예정
       <div>
         <button className={styles.listButton} onClick={goList}>목록으로</button>
+      </div>
+      <div>
+        <CommentForm movieId={movie.id.toString()} />
+        <CommentList movieId={movie.id.toString()} />
       </div>
     </div>
   );

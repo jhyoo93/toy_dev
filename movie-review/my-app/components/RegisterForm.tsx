@@ -1,12 +1,13 @@
 import axios from "axios";
 import styles from '@/styles/RegisterForm.module.css';
-import { useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useAuthStore } from "@/stores/useAuthStore";
 import Image from "next/image";
 import defaultUserImg from '@/public/default-user.png';
 import { useRef } from "react";
+import { useRegister } from '@/lib/react-query';
+import { useRouter } from "next/router";
 
 interface RegisterFormProps {
   onSuccess: () => void;
@@ -28,18 +29,31 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
     resolver: yupResolver(schema),
   });
 
-  const { toggleRegisterModal } = useAuthStore();
+  const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
+  const mutation = useRegister();
 
-  const onSubmit = async (data: any) => {
-    try {
-      await axios.post('/api/register', data);
-      alert('회원가입이 완료되었습니다!');
-      toggleRegisterModal();
-      onSuccess();
-    } catch (error) {
-      console.error('에러가 발생했습니다!', error);
-    }
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const { confirmPassword, ...rest } = data;
+    mutation.mutate(data, {
+      onSuccess: () => {
+        alert('회원가입이 완료되었습니다!');
+        onSuccess();
+        router.push('/'); // 회원가입 후 메인
+      },
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          const errorMessage = error.response?.data?.message || '회원가입 중 오류가 발생했습니다.';
+          if (errorMessage === '이미 존재하는 이메일입니다.') {
+            alert('이미 존재하는 이메일입니다.');
+          } else {
+            alert(errorMessage);
+          }
+        } else {
+          alert('알 수 없는 오류가 발생했습니다.');
+        }
+      },
+    });
   };
 
   const handleButtonClick = async () => {

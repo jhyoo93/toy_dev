@@ -1,14 +1,29 @@
-import { useMutation, QueryClient, QueryClientProvider } from 'react-query';
+import { useMutation, UseMutationResult, useQuery, UseQueryResult, QueryClient  } from 'react-query';
 import axios from 'axios';
 
 const queryClient = new QueryClient();
 
-const useRegister = () => {
-  return useMutation((userData: any) => axios.post('/api/register', userData));
+export const useRegister = (): UseMutationResult<any, unknown, any, unknown> => {
+  return useMutation((userData: any) => axios.post('/api/register', userData), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('user');
+    },
+  });
 };
 
-const useLogin = () => {
-  return useMutation((loginData: any) => axios.post('/api/login', loginData));
+export const useLogin = (): UseMutationResult<any, unknown, any, unknown> => {
+  return useMutation((loginData: any) => axios.post('/api/login', loginData), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('user');
+    },
+  });
 };
 
-export { queryClient, QueryClientProvider, useRegister, useLogin };
+export const useComments = (movieId: string): UseQueryResult<any, unknown> => {
+  return useQuery(['comments', movieId], async () => {
+    const response = await axios.get(`/api/comments/${movieId}`);
+    return response.data;
+  });
+};
+
+export default queryClient;
