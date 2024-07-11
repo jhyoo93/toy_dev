@@ -6,6 +6,7 @@ import styles from '@/styles/Comments.module.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { getUsernameFromToken } from '@/utils/auth';
+import { useRouter } from 'next/router';
 
 interface CommentFormProps {
   movieId: string;
@@ -22,17 +23,14 @@ const schema = yup.object().shape({
 });
 
 const CommentForm = ({ movieId }: CommentFormProps) => {
-  const [username, setUsername] = useState<string>('');
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<CommentFormData>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      username: '',
-      comment: '',
-    },
   });
 
   const queryClient = useQueryClient();
+  const [username, setUsername] = useState<string>('');
+  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -41,7 +39,6 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
       if (fetchedUsername) {
         setUsername(fetchedUsername);
         setValue('username', fetchedUsername);
-        console.log('Fetched Username:', fetchedUsername);  // 디버깅 로그
       }
     }
   }, [setValue]);
@@ -52,6 +49,7 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
       onSuccess: () => {
         queryClient.invalidateQueries(['comments', movieId]);
         alert('댓글이 저장되었습니다.');
+        location.reload();
       },
       onError: (error) => {
         alert('댓글 저장 중 오류가 발생했습니다.');

@@ -2,6 +2,8 @@ import { jwtDecode } from "jwt-decode";
 
 interface DecodedToken {
   username: string;
+  email: string;
+  id: string;
 }
 
 export const getUsernameFromToken = (token: string): string | null => {

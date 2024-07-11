@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-
 import { MongoClient } from 'mongodb';
 
 let cachedClient: MongoClient | null = null;
@@ -39,8 +38,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(401).json({ message: '유효하지 않은 비밀번호입니다.' });
   }
 
+  // 사용자 정보를 콘솔에 출력하여 확인합니다.
+  console.log('User found:', user);
+
   const token = jwt.sign(
-    { id: user._id, email: user.email },
+    { 
+      id: user._id, 
+      email: user.email, 
+      username: user.username,
+    },
     process.env.JWT_SECRET!,
     { expiresIn: '1h' }
   );

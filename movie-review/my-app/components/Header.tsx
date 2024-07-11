@@ -35,15 +35,6 @@ export default function Header() {
     }
   }, [setUser, clearUser]);
 
-  // const handleLogout = () => {
-  //   if(!confirm('로그아웃 하시겠습니까?')) {
-  //     return;
-  //   } 
-  //   clearUser();
-  //   // 로그아웃시 토큰 삭제
-  //   localStorage.removeItem('authToken');
-  // };
-
   return (
     <header className={styles.header}>
       <Container className={styles.container}>
