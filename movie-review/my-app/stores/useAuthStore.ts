@@ -1,4 +1,5 @@
 import create from 'zustand';
+import Cookies from 'js-cookie';
 
 interface User {
   id: string;
@@ -22,17 +23,18 @@ export const useAuthStore = create<AuthState>((set) => ({
   setUser: (user: User) => {
     set({ user });
     localStorage.setItem('user', JSON.stringify(user));
+    Cookies.set('authToken', user.token, { expires: 1, path: '/' });
   },
   clearUser: () => {
     set({ user: null });
     localStorage.removeItem('user');
-    localStorage.removeItem('authToken');
+    Cookies.remove('authToken');
   },
   isLoginModalOpen: false,
   toggleLoginModal: () => set((state) => ({ isLoginModalOpen: !state.isLoginModalOpen })),
   initializeAuth: () => {
     const user = localStorage.getItem('user');
-    const token = localStorage.getItem('authToken');
+    const token = Cookies.get('authToken');
     if (user && token) {
       set({ user: JSON.parse(user) });
     }

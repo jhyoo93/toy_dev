@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { getUsernameFromToken } from '@/utils/auth';
 import { useRouter } from 'next/router';
+import cookie from 'js-cookie';
 
 interface CommentFormProps {
   movieId: string;
@@ -30,10 +31,9 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
 
   const queryClient = useQueryClient();
   const [username, setUsername] = useState<string>('');
-  const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = cookie.get('authToken');
     if (token) {
       const fetchedUsername = getUsernameFromToken(token);
       if (fetchedUsername) {
@@ -44,7 +44,19 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
   }, [setValue]);
 
   const mutation = useMutation(
-    (newComment: CommentFormData) => axios.post('/api/comments', { movieId, ...newComment }),
+    (newComment: CommentFormData) => {
+      const token = cookie.get('authToken');
+      if (!token) {
+        alert('로그인이 필요합니다.');
+        return Promise.reject(new Error('로그인이 필요합니다.'));
+      }
+
+      return axios.post('/api/comments', { movieId, ...newComment }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['comments', movieId]);
