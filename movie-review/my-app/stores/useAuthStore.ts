@@ -23,7 +23,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   setUser: (user: User) => {
     set({ user });
     localStorage.setItem('user', JSON.stringify(user));
-    Cookies.set('authToken', user.token, { expires: 1, path: '/' });
   },
   clearUser: () => {
     set({ user: null });

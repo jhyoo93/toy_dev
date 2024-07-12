@@ -56,6 +56,7 @@ const MyPage = () => {
   });
 
   useEffect(() => {
+    console.log('User updated:', user);
     if (!user) {
       if (typeof window !== 'undefined') {
         router.push('/');
@@ -86,7 +87,13 @@ const MyPage = () => {
       }),
     {
       onSuccess: (response) => {
-        refetch(); // 이미지 업로드 후 사용자 데이터 다시 불러오기
+        const imagePath = response.data.filePath; // 응답에서 이미지 경로 가져오기
+        if (user) {
+          setUser({
+            ...user,
+            image: imagePath,
+          });
+        }
         toast.success('이미지가 성공적으로 업로드되었습니다!');
         queryClient.invalidateQueries('user');
       },
@@ -157,6 +164,7 @@ const MyPage = () => {
 
   const getImageSrc = (src: string | undefined): string => {
     if (src) {
+      console.log('Image src:', src); // 로그 추가
       return `${src.startsWith('/') ? '' : '/'}${src}`;
     }
     return defaultUserImg.src;

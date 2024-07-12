@@ -29,12 +29,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookies = cookie.parse(req.headers.cookie || '');
   const token = cookies.authToken;
 
-  console.log('Cookies:', cookies);
-  console.log('Token:', token);
-
   // 토큰이 없거나 유효하지 않으면 메인 페이지로 리다이렉트합니다.
   if (!token) {
-    console.log('No token found');
     return {
       props: {
         movie: null,
@@ -45,7 +41,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   // 토큰을 디코딩하여 사용자 정보를 가져옵니다.
   const username = getUsernameFromToken(token);
-  console.log('Decoded Username:', username);
 
   if (!username) {
     console.log('No username found in token');

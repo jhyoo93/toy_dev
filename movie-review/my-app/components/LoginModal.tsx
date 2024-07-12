@@ -31,13 +31,19 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const { setUser, toggleLoginModal } = useAuthStore();
 
   const mutation = useMutation((data: LoginData) => axios.post('/api/login', data), {
+    // 로그인 성공시
     onSuccess: (response) => {
       const token = response.data.token;
-      Cookies.set('authToken', token, { expires: 1, path: '/' });
-      setUser(response.data.user);
-      toggleLoginModal();
-      window.location.reload();
+      if (token) {
+        Cookies.set('authToken', token, { expires: 1, path: '/' });
+        setUser(response.data.user);
+        toggleLoginModal();
+        window.location.reload();
+      } else {
+        setLoginError('로그인에 실패했습니다. 다시 시도해주세요.');
+      }
     },
+    // 로그인 실패시
     onError: (error) => {
       setLoginError('로그인에 실패했습니다. 다시 시도해주세요.');
       console.error('로그인 실패:', error);
