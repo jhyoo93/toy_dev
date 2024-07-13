@@ -28,9 +28,9 @@ const CommentList = ({ movieId }: CommentListProps) => {
     <div className={styles.commentList}>
       {comments && comments.map((comment) => (
         <div key={comment._id} className={styles.comment}>
-          <p><strong>{comment.username}</strong></p>
-          <p>{comment.comment}</p>
-          <p>{new Date(comment.createdAt).toLocaleString()}</p>
+          <p className={styles.date}><strong>{comment.username}</strong></p>
+          <p className={styles.date}>{comment.comment}</p>
+          <p className={styles.date}>{new Date(comment.createdAt).toLocaleString()}</p>
         </div>
       ))}
     </div>

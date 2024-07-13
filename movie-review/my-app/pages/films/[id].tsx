@@ -2,11 +2,13 @@ import { GetServerSideProps } from 'next';
 import axios from 'axios';
 import { Movie } from '@/types/Movie'; 
 import styles from '@/styles/Movie.module.css';
+import commentStyles from '@/styles/Comments.module.css';
+import listStyles from '@/styles/CommentList.module.css';
 import Rating from '@/components/Rating';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { MouseEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 import CommentForm from '@/components/CommentForm';
 import CommentList from '@/components/CommentList';
 import cookie from 'cookie';
@@ -90,11 +92,6 @@ const FilmDetail = ({ movie, error }: FilmDetailProps) => {
     return <div>영화 정보를 찾을 수 없습니다.</div>;
   }
 
-  function goList(e: MouseEvent<HTMLButtonElement>) {
-    e.preventDefault();
-    router.push('/');
-  }
-
   return (
     <div>
       <div className={styles.header}>
@@ -128,14 +125,15 @@ const FilmDetail = ({ movie, error }: FilmDetailProps) => {
             </tbody>
           </table>
         </div>
-      </div>
-      <br/><br/><br/><br/>
-      <div>
-        <button className={styles.listButton} onClick={goList}>목록으로</button>
-      </div>
-      <div>
-        <CommentForm movieId={movie.id.toString()} />
-        <CommentList movieId={movie.id.toString()} />
+      </div>      
+      <br/><br/>
+      <div className={commentStyles.commentSection}>
+        <div className={listStyles.commentListContainer}>
+          <CommentList movieId={movie.id.toString()} />
+        </div>
+        <div className={commentStyles.commentFormContainer}>
+          <CommentForm movieId={movie.id.toString()} />
+        </div>
       </div>
     </div>
   );

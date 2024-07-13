@@ -1,0 +1,64 @@
+.commentSection {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    width: 100%;
+  }
+  
+  .commentFormContainer {
+    flex: 2; /* 더 큰 비율을 할당 */
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .commentForm {
+    width: 100%;
+    max-width: 500px; /* 폼의 최대 너비를 넓게 설정 */
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #1f1f1f;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .commentForm label {
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  .commentForm input,
+  .commentForm textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #333;
+    color: #ffffff;
+  }
+  
+  .commentForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: #e0123b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.9rem;
+  }
+  

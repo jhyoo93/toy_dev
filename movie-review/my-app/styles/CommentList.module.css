@@ -1,0 +1,37 @@
+.commentListContainer {
+    flex: 2; /* 더 작은 비율을 할당 */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .commentList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .comment {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #1f1f1f;
+    color: #ffffff;
+  }
+  
+  .comment strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+  }
+  
+  .comment p {
+    margin: 5px 0;
+    color: #cccccc;
+  }
+  
+  .comment .date {
+    font-size: 0.9rem;
+    color: #999;
+  }
+  
