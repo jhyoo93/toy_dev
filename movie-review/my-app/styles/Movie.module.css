@@ -61,6 +61,7 @@
 .listButton {
   float: right;
   padding: 10px 20px;
+  width: 200px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -118,3 +119,6 @@
   margin-top: 10px;
 }
 
+.goList{
+  padding-bottom: 50px;
+}

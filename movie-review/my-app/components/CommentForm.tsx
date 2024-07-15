@@ -4,9 +4,8 @@ import * as yup from 'yup';
 import { useMutation, useQueryClient } from 'react-query';
 import styles from '@/styles/Comments.module.css';
 import axios from 'axios';
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState } from 'react';
 import { getUsernameFromToken } from '@/utils/auth';
-import { useRouter } from 'next/router';
 import cookie from 'js-cookie';
 
 interface CommentFormProps {
@@ -74,14 +73,8 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
     mutation.mutate(data);
   };
 
-  function goList(e: MouseEvent<HTMLButtonElement>) {
-    const router = useRouter();
-
-    e.preventDefault();
-    router.push('/');
-  }
-
   return (  
+    <div>
       <form className={styles.commentForm} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formGroup}>
           <label>이름</label>
@@ -94,15 +87,13 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
           {errors.username && <p className={styles.error}>{errors.username.message}</p>}
         </div>
         <div className={styles.formGroup}>
-          <label>댓글</label>
+          <label>리뷰</label>
           <textarea {...register('comment')} />
-          {errors.comment && <p className={styles.error}>{errors.comment.message}</p>}
-        </div>
-        <button type="submit">댓글 작성</button>
-        <div>
-          <button className={styles.listButton} onClick={goList}>목록으로</button>
+          {errors.comment && <p className={styles.error}>{errors.comment.message}</p>}<br/>
+          <button type="submit">리뷰 작성</button>       
         </div>
       </form>
+    </div>  
   );
 };
 

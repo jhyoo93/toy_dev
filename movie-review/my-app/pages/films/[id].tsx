@@ -92,6 +92,11 @@ const FilmDetail = ({ movie, error }: FilmDetailProps) => {
     return <div>영화 정보를 찾을 수 없습니다.</div>;
   }
 
+  const goList = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    router.push('/');
+  };
+
   return (
     <div>
       <div className={styles.header}>
@@ -125,15 +130,18 @@ const FilmDetail = ({ movie, error }: FilmDetailProps) => {
             </tbody>
           </table>
         </div>
-      </div>      
-      <br/><br/>
-      <div className={commentStyles.commentSection}>
-        <div className={listStyles.commentListContainer}>
-          <CommentList movieId={movie.id.toString()} />
-        </div>
-        <div className={commentStyles.commentFormContainer}>
-          <CommentForm movieId={movie.id.toString()} />
-        </div>
+      </div>    
+      <br/>  
+      <div className={styles.goList}>
+          <button className={styles.listButton} onClick={goList}>돌아가기</button>
+      </div>
+      <br/><br/><br/>
+      <div className={listStyles.commentListContainer}>
+        <CommentList movieId={movie.id.toString()} />
+      </div>
+      <br/> <br/>
+      <div className={commentStyles.commentFormContainer}>
+        <CommentForm movieId={movie.id.toString()} />
       </div>
     </div>
   );
