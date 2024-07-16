@@ -27,11 +27,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req, res, params } = context;
   const { id } = params as Params;
 
-  // 쿠키에서 토큰을 가져옵니다.
+  // 쿠키에서 토큰을 가져옴
   const cookies = cookie.parse(req.headers.cookie || '');
   const token = cookies.authToken;
 
-  // 토큰이 없거나 유효하지 않으면 메인 페이지로 리다이렉트합니다.
+  // 토큰이 없거나 유효하지 않으면 메인 페이지로 리다이렉트.
   if (!token) {
     return {
       props: {
@@ -41,20 +41,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  // 토큰을 디코딩하여 사용자 정보를 가져옵니다.
-  const username = getUsernameFromToken(token);
+  // 토큰을 디코딩하여 사용자 정보를 가져옴.
+  // const username = getUsernameFromToken(token);
 
-  if (!username) {
-    console.log('No username found in token');
-    return {
-      props: {
-        movie: null,
-        error: '로그인이 필요합니다.',
-      },
-    };
-  }
+  // if (!username) {
+  //   console.log('No username found in token');
+  //   return {
+  //     props: {
+  //       movie: null,
+  //       error: '로그인이 필요합니다.',
+  //     },
+  //   };
+  // }
 
-  // API 호출하여 영화 데이터를 가져옵니다.
+  // API 호출하여 영화 데이터를 가져옴.
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
   let movie = null;
 
@@ -89,7 +89,7 @@ const FilmDetail = ({ movie, error }: FilmDetailProps) => {
   }, [error, router]);
 
   if (!movie) {
-    return <div>영화 정보를 찾을 수 없습니다.</div>;
+    return <></>;
   }
 
   const goList = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -124,7 +124,7 @@ const FilmDetail = ({ movie, error }: FilmDetailProps) => {
                 <th>별점</th>    
                 <td>
                   <Rating value={Math.round(movie.vote_average / 2)} />&nbsp;&nbsp;
-                  {movie.vote_average} / 10
+                  {movie.vote_average.toString().substring(0, 3)}
                 </td>
               </tr>
             </tbody>

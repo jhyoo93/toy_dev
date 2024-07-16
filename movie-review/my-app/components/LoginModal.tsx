@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Cookies from 'js-cookie';
+import cookie from 'js-cookie';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -27,23 +27,18 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginData>({
     resolver: yupResolver(schema),
   });
-  const [loginError, setLoginError] = useState('');
+  const [ loginError, setLoginError ] = useState('');
   const { setUser, toggleLoginModal } = useAuthStore();
-
+  
   const mutation = useMutation((data: LoginData) => axios.post('/api/login', data), {
-    // 로그인 성공시
     onSuccess: (response) => {
       const token = response.data.token;
-      if (token) {
-        Cookies.set('authToken', token, { expires: 1, path: '/' });
-        setUser(response.data.user);
-        toggleLoginModal();
-        window.location.reload();
-      } else {
-        setLoginError('로그인에 실패했습니다. 다시 시도해주세요.');
-      }
+      cookie.set('authToken', token, { expires: 1, path: '/' });
+      localStorage.setItem('authToken', token);
+      setUser(response.data.user);
+      toggleLoginModal();
+      window.location.reload();
     },
-    // 로그인 실패시
     onError: (error) => {
       setLoginError('로그인에 실패했습니다. 다시 시도해주세요.');
       console.error('로그인 실패:', error);

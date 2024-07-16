@@ -87,7 +87,7 @@ const MyPage = () => {
       }),
     {
       onSuccess: (response) => {
-        const imagePath = response.data.filePath; // 응답에서 이미지 경로 가져오기
+        const imagePath = response.data.filePath; // 응답에서 이미지 경로 가져옴
         if (user) {
           setUser({
             ...user,

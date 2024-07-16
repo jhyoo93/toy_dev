@@ -71,7 +71,7 @@ const Search = ({ q, initialMovies }: SearchProps) => {
         },
       });
       console.log('Response:', response);
-      const newMovies: Movie[] = response.data.results.slice(0, 9); // 다음 9개의 영화를 가져옵니다.
+      const newMovies: Movie[] = response.data.results.slice(0, 9); // 다음 9개의 영화를 가져옴
       console.log('New movies:', newMovies);
       if (newMovies.length === 0) {
         setHasMore(false);

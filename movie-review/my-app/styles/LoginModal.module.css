@@ -64,7 +64,7 @@
     transform: translate(-50%, -50%);
     background-color: #333;
     padding: 20px;
-    z-index: 1000; /* 높은 z-index 값 */
+    z-index: 1000;
     width: 400px;
     height: 320px;
     border-radius: 10px;

@@ -6,7 +6,6 @@ import styles from '@/styles/Comments.module.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { getUsernameFromToken } from '@/utils/auth';
-import cookie from 'js-cookie';
 
 interface CommentFormProps {
   movieId: string;
@@ -23,44 +22,41 @@ const schema = yup.object().shape({
 });
 
 const CommentForm = ({ movieId }: CommentFormProps) => {
+  const [username, setUsername] = useState<string>('');
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<CommentFormData>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      username: '',
+      comment: '',
+    },
   });
 
   const queryClient = useQueryClient();
-  const [username, setUsername] = useState<string>('');
 
   useEffect(() => {
-    const token = cookie.get('authToken');
+    const token = localStorage.getItem('authToken');
+    //console.log('Token from localStorage:', token);
     if (token) {
-      const fetchedUsername = getUsernameFromToken(token);
-      if (fetchedUsername) {
-        setUsername(fetchedUsername);
-        setValue('username', fetchedUsername);
+      try {
+        const fetchedUsername = getUsernameFromToken(token);
+        if (fetchedUsername) {
+          setUsername(fetchedUsername);
+          setValue('username', fetchedUsername);
+          //console.log('Fetched Username:', fetchedUsername);
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
       }
     }
   }, [setValue]);
 
   const mutation = useMutation(
-    (newComment: CommentFormData) => {
-      const token = cookie.get('authToken');
-      if (!token) {
-        alert('로그인이 필요합니다.');
-        return Promise.reject(new Error('로그인이 필요합니다.'));
-      }
-
-      return axios.post('/api/comments', { movieId, ...newComment }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    },
+    (newComment: CommentFormData) => axios.post('/api/comments', { movieId, ...newComment }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['comments', movieId]);
         alert('댓글이 저장되었습니다.');
-        location.reload();
       },
       onError: (error) => {
         alert('댓글 저장 중 오류가 발생했습니다.');
@@ -73,8 +69,9 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
     mutation.mutate(data);
   };
 
-  return (  
-    <div>
+  return (
+    <>
+      <h2>리뷰작성</h2>   
       <form className={styles.commentForm} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formGroup}>
           <label>이름</label>
@@ -84,16 +81,16 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
             onChange={(e) => setUsername(e.target.value)} 
             readOnly 
           />
-          {errors.username && <p className={styles.error}>{errors.username.message}</p>}
         </div>
         <div className={styles.formGroup}>
           <label>리뷰</label>
           <textarea {...register('comment')} />
-          {errors.comment && <p className={styles.error}>{errors.comment.message}</p>}<br/>
-          <button type="submit">리뷰 작성</button>       
+        </div>
+        <div className={styles.formGroup}>
+          <button type="submit">리뷰 작성</button>
         </div>
       </form>
-    </div>  
+    </>
   );
 };
 

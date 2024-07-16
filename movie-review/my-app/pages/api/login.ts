@@ -38,8 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(401).json({ message: '유효하지 않은 비밀번호입니다.' });
   }
 
-  // 사용자 정보를 콘솔에 출력하여 확인합니다.
-  console.log('User found:', user);
+  console.log('User:', user);
 
   const token = jwt.sign(
     { 
