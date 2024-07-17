@@ -8,11 +8,11 @@ import Rating from '@/components/Rating';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import CommentForm from '@/components/CommentForm';
 import CommentList from '@/components/CommentList';
 import cookie from 'cookie';
-import { getUsernameFromToken } from '@/utils/auth';
+//import { getUsernameFromToken } from '@/utils/auth';
 
 interface FilmDetailProps {
   movie: Movie | null;
@@ -80,6 +80,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const FilmDetail = ({ movie, error }: FilmDetailProps) => {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (error) {
@@ -131,18 +132,19 @@ const FilmDetail = ({ movie, error }: FilmDetailProps) => {
           </table>
         </div>
       </div>    
-      <br/>  
+      <br/><br/>
       <div className={styles.goList}>
-          <button className={styles.listButton} onClick={goList}>돌아가기</button>
+          <button className={styles.listButton} onClick={goList}>메인으로</button>
+          <button className={styles.listButton} onClick={() => setIsModalOpen(true)}>리뷰 작성</button>
       </div>
-      <br/><br/><br/>
+      <br/><br/>
       <div className={listStyles.commentListContainer}>
         <CommentList movieId={movie.id.toString()} />
       </div>
-      <br/> <br/>
       <div className={commentStyles.commentFormContainer}>
-        <CommentForm movieId={movie.id.toString()} />
+        <CommentForm movieId={movie.id.toString()} isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)}/>
       </div>
+      
     </div>
   );
 };

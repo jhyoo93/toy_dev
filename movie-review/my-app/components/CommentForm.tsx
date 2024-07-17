@@ -6,9 +6,12 @@ import styles from '@/styles/Comments.module.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { getUsernameFromToken } from '@/utils/auth';
+import Modal from 'react-modal';
 
 interface CommentFormProps {
   movieId: string;
+  isOpen: boolean;
+  onRequestClose: () => void;
 }
 
 interface CommentFormData {
@@ -21,7 +24,7 @@ const schema = yup.object().shape({
   comment: yup.string().required('댓글을 입력해주세요.'),
 });
 
-const CommentForm = ({ movieId }: CommentFormProps) => {
+const CommentForm = ({ movieId, isOpen, onRequestClose }: CommentFormProps) => {
   const [username, setUsername] = useState<string>('');
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<CommentFormData>({
@@ -36,17 +39,11 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
-    //console.log('Token from localStorage:', token);
     if (token) {
-      try {
-        const fetchedUsername = getUsernameFromToken(token);
-        if (fetchedUsername) {
-          setUsername(fetchedUsername);
-          setValue('username', fetchedUsername);
-          //console.log('Fetched Username:', fetchedUsername);
-        }
-      } catch (error) {
-        console.error('Error decoding token:', error);
+      const fetchedUsername = getUsernameFromToken(token);
+      if (fetchedUsername) {
+        setUsername(fetchedUsername);
+        setValue('username', fetchedUsername);
       }
     }
   }, [setValue]);
@@ -57,6 +54,7 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
       onSuccess: () => {
         queryClient.invalidateQueries(['comments', movieId]);
         alert('댓글이 저장되었습니다.');
+        location.reload();
       },
       onError: (error) => {
         alert('댓글 저장 중 오류가 발생했습니다.');
@@ -70,8 +68,7 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
   };
 
   return (
-    <>
-      <h2>리뷰작성</h2>   
+    <Modal isOpen={isOpen} onRequestClose={onRequestClose} className={styles.modal} overlayClassName={styles.overlay}>
       <form className={styles.commentForm} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formGroup}>
           <label>이름</label>
@@ -90,7 +87,7 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
           <button type="submit">리뷰 작성</button>
         </div>
       </form>
-    </>
+    </Modal>
   );
 };
 
