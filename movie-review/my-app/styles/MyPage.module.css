@@ -46,3 +46,23 @@
     justify-content: center;
     color: white;
   }
+
+  .logoutButton {
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #e0123b;
+    color: #fff;
+    margin-top: 20px;
+  }
+
+  .deleteButton {
+    padding: 2px 7px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #e0123b;
+    color: #fff;
+    margin-top: 6px;
+  }
