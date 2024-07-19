@@ -1,9 +1,10 @@
 import styles from '@/styles/LoginModal.module.css';
 import axios from 'axios';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
+import { getProviders, signIn } from 'next-auth/react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import cookie from 'js-cookie';
@@ -27,13 +28,21 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginData>({
     resolver: yupResolver(schema),
   });
-  const [ loginError, setLoginError ] = useState('');
+  const [loginError, setLoginError] = useState('');
   const { setUser, toggleLoginModal } = useAuthStore();
-  
+  const [providers, setProviders] = useState<any>({});
+
+  useEffect(() => {
+    const fetchProviders = async () => {
+      const res = await getProviders();
+      setProviders(res);
+    };
+    fetchProviders();
+  }, []);
+
   const mutation = useMutation((data: LoginData) => axios.post('/api/login', data), {
     onSuccess: (response) => {
       const token = response.data.token;
-      cookie.set('authToken', token, { expires: 1, path: '/' });
       localStorage.setItem('authToken', token);
       setUser(response.data.user);
       toggleLoginModal();
@@ -47,6 +56,11 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
 
   const onSubmit = (data: LoginData) => {
     mutation.mutate(data);
+  };
+
+  // 구글로그인
+  const handleSocialLogin = (provider: string) => {
+    signIn(provider);
   };
 
   if (!isOpen) return null;
@@ -68,6 +82,11 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                         {errors.password && <p className={styles.error}>{errors.password.message}</p>}
                     </div>
                     <button className={styles.loginButton} type="submit">로그인</button>
+                    {Object.values(providers).map((provider: any) => (
+                      <button key={provider.name} type="button" className={styles.googleButton} onClick={() => handleSocialLogin(provider.id)}>
+                        {provider.name}로 로그인
+                      </button>
+                    ))}
                     <button className={styles.closeButton} onClick={onClose}>X</button>                  
                 </form>
                 {loginError && <p className={styles.error}>{loginError}</p>}

@@ -27,6 +27,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   clearUser: () => {
     set({ user: null });
     localStorage.removeItem('user');
+    //localStorage.remove('authToken');
     Cookies.remove('authToken');
   },
   isLoginModalOpen: false,
