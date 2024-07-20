@@ -82,11 +82,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                         {errors.password && <p className={styles.error}>{errors.password.message}</p>}
                     </div>
                     <button className={styles.loginButton} type="submit">로그인</button>
-                    {Object.values(providers).map((provider: any) => (
-                      <button key={provider.name} type="button" className={styles.googleButton} onClick={() => handleSocialLogin(provider.id)}>
-                        {provider.name}로 로그인
-                      </button>
-                    ))}
+                    <button className={styles.socialLoginButton} type="button" onClick={() => handleSocialLogin('google')}>Google 로그인</button>
                     <button className={styles.closeButton} onClick={onClose}>X</button>                  
                 </form>
                 {loginError && <p className={styles.error}>{loginError}</p>}

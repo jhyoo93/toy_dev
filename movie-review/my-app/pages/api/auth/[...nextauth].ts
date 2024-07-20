@@ -12,11 +12,10 @@ export default NextAuth({
     }),
     // 다른 제공자 설정 추가 가능
   ],
-  pages: {
-    signIn: '/auth/signin',
-    signOut: '/auth/signout',
-    error: '/auth/error', // 에러 페이지
-    verifyRequest: '/auth/verify-request', // 이메일 확인 페이지
-    ///newUser: null // 신규 사용자에게 보이는 페이지 (옵션)
+  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl) ? url : baseUrl;
+    },
   },
 });
