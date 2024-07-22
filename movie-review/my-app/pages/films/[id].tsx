@@ -12,7 +12,6 @@ import { useEffect, useState } from 'react';
 import CommentForm from '@/components/CommentForm';
 import CommentList from '@/components/CommentList';
 import cookie from 'cookie';
-//import { getUsernameFromToken } from '@/utils/auth';
 
 interface FilmDetailProps {
   movie: Movie | null;
@@ -34,25 +33,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // 토큰이 없거나 유효하지 않으면 메인 페이지로 리다이렉트.
   if (!token) {
     return {
-      props: {
-        movie: null,
-        error: '로그인이 필요합니다.',
+      redirect: {
+        destination: '/?error=not_logged_in',
+        permanent: false,
       },
     };
   }
-
-  // 토큰을 디코딩하여 사용자 정보를 가져옴.
-  // const username = getUsernameFromToken(token);
-
-  // if (!username) {
-  //   console.log('No username found in token');
-  //   return {
-  //     props: {
-  //       movie: null,
-  //       error: '로그인이 필요합니다.',
-  //     },
-  //   };
-  // }
 
   // API 호출하여 영화 데이터를 가져옴.
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
@@ -88,6 +74,12 @@ const FilmDetail = ({ movie, error }: FilmDetailProps) => {
       router.replace('/');
     }
   }, [error, router]);
+
+  useEffect(() => {
+    if (router.query.error === 'not_logged_in') {
+      alert('로그인이 필요합니다.');
+    }
+  }, [router]);
 
   if (!movie) {
     return <></>;
