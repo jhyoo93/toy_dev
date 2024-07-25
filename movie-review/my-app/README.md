@@ -1,40 +1,100 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+@ Front CS
 
-## Getting Started
+Java Script
 
-First, run the development server:
+  [ 호이스팅 ]
+  - 호이스팅은 변수 및 함수의 선언이 코드 최상단으로 끌어올려지는 것 같은 현상을 말한다. 자바 스크립트 엔진이 코드 실행전에 변수와 함수의 메모리
+    공간을 미리 할당해 주기 때문이다
+  - 변수는 선언만 호이스팅되고, 함수 선언문은 전체가 호이스팅된다
+  
+  [ 클로저 ]
+  - 함수가 선언될 때의 렉시컬 환경(Lexical Environment)을 기억하여, 함수가 선언된 스코프 밖에서 호출되더라도 그 스코프에 접근할 수 있는 기능을 말한다
+    즉, 함수와 그 함수가 선언된 환경의 조합이다. 주로 캡슐화와 정보은닉을 위해 사용한다
+  
+  [ 렉시컬 환경 ]
+  - 코드가 작성된 시점의 변수와 상위 스코프 정보를 포함하는 구조이다. 자바스크립트 엔진은 렉시컬 환경을 통해 변수와 함수의 유효범위(scope)를 관리한다
+    각 함수 호출 시 새로운 렉시컬 환경이 생성되며, 이는 함수가 선언된 위치에 따라 결정된다.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+  [ 렉시컬 스코프 ] 
+  - 함수가 선언된 위치에 따라 scope(변수의 유효 범위)가 결정되는 개념이다. 이는 함수를 어디서 호출하느냐가 아닌, 어디서 선언했느냐에 따라 상위
+    스코프를 결정하는 방식이다.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+  [ CSR ] -> 클라이언트 사이드 랜더링
+  - 웹애플리케이션의 랜더링이 클라이언트 즉, 브라우저에서 이루어지는 방식이다.
+    장점 >> 빠른페이지 전환 및 복잡한 UI구현에 유리하다
+    단점 >> 초기로딩 속도가 느리고 검색엔진 최적화(SEO)가 어렵다
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+  [ SSR ] -> 서버 사이드 랜더링
+  - 웹애플리케이션의 랜더링이 서버에서 이루어지는 방식이다.
+    장점 >> 검색엔진 최적화 유리 및 빠른 초기로딩
+    단점 >> 서버 부하 증가 및 상효작용의 초기화 필요    
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+  [var, let const의 차이]
+    var - 중복선언이 가능하고 함수레벨 스코프 이다.
+    let - 중복선언 및 재할당이 불가능하고 블록레벨 스코프이다.
+    const - 중복선언 및 재할당이 불가능하고 블록레벨 스코프이다.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+  [ Promise와 Async, Await의 차이 ]
+  - Async, Await를 사용할 경우 코드가 Promise를 사용한 코드보다 간결해지며 동기적인 코드흐름으로 개발이 가능하다 하지만 
+    에러 처리를위해 try/catch문을 사용해야한다.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+  [ 메서드 체이닝 ]
+  - 자기 자신을 반환하는 함수를 연결하여 호출하는 것을 메서드 체이닝이라고 한다 코드가 간략해지는 장점이 있지만 에러 발생시 어느 부분에서
+    에러가 발생했는지 알기 어렵다는 단점이있다.
 
-## Learn More
+  [ this ]
+  - 자신이 속한 객체 또는 자신이 생성한 인스턴스를 가리키는 자기 참조 변수이며 함수의 호출방식에 따라 특정 객체를 바인딩하게 된다
 
-To learn more about Next.js, take a look at the following resources:
+  [ 이벤트 버블링 ]
+  - 이벤트가 발생한 요소에서 상위요소로 이벤트가 전파되는 과정을 말한다
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  [ 이벤트 캡쳐링 ]
+  - 이벤트가 상위 요소에서 하위 요소로 전파되는 과정을 말한다
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+  [ 구조분해 할당 ]
+  - 객체 및 배열의 값을 추출해서 변수에 바로 할당 할 수 있는 문법이다 ES6에서 도입됨
 
-## Deploy on Vercel
+  [ 이벤트 루프 ]
+  - 자바스크립트 런타임 환경에서 비동기 작업을 처리하는 메커니즘이다. 자바스크립트는 싱을 스레드 언어로, 이벤트 루프를 통해
+    비동기 작업을 효율적으로 처리한다
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    * 작동방식
+      1. 콜스택(Call Stack) - 실행할 함수들이 쌓이는 스택이다 함수가 호출되면 스택에 추가되고, 실행이완료되면 제거된다
+      2. 테스트 큐(Task Queue) - 비동기 작업의 콜백 함수들이 대기하는 큐이다. 타이머, 이벤트 핸들러 AJAX 콜백등등
+      3. 이벤트루프 - 콜 스택이 비어 있을때 테스크 큐에서 대기 중인 작업을 콜 스택으로 이동시켜 실행한다
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+React
+
+  [ React DOM ]
+  - Document Object Model의 약자로 HTML문서를 구조화하여 나타낸것을 의미한다 프로그래밍 언어가 DOM구조에 접근할수 있는 방법을 제공하여
+    문서 구조, 스타일, 내용들을 변경할 수 있게 도와주는 인터페이스 역할을 한다
+
+  [ React 생명주기 ]
+  - React 컴포넌트는 생명주기를 가지고 있으며, 생명주기란 컴포넌트가 생성되고 사용되고 소멸될 때 까지 일련의 과정을 말한다
+    생명주기 안에서는 특정 시점에 자동으로 호출되는 메서드가 있는데, 이를 라이프 사이클 이벤트라고 한다
+
+    * 클래스형 컴포넌트의 생명주기(라이프 사이클 메서드)
+      1. 마운트(Mount) - 컴포넌트가 처음 DOM에 추가될때 발생하며 한번만 실행된다
+        - constructor: 컴포넌트가 처음 생성될 때 호출되며, state를 초기화하거나 메서드를 바인딩할 수 있다
+        - getDerivedStateFromProps: props로부터 state를 갱신해야 할 때 호출된다.
+        - componentDidMount: 컴포넌트가 마운트된 직후에 호출되며, DOM 노드에 접근하거나 데이터를 가져올 때 주로 사용된다     
+
+      2. 업데이트(Update) - 컴포넌트의 props나 state가 변경될 때 발생하며 여러번 실행된다
+        - getDerivedStateFromProps: 컴포넌트의 props나 state가 바뀌었을때도 이 메서드가 호출된다
+        - shouldComponentUpdate: 컴포넌트가 업데이트 될지 여부를 결정한다.
+        - render: 컴포넌트를 랜더링하는 메서드이다
+        - getSnapshotBeforeUpdate: 업데이트가 DOM에 반영되기 직전에 호출된다.
+        - componentDidUpdate: 업데이트가 DOM에 반영된 후에 호출된다.
+
+      3. 언마운트(Unmount) - 컴포넌트가 DOM에서 제거될 때 발생하며 한번만 실행된다
+        - componentWillUnmount: 컴포넌트가 화면에서 사라지기 직전에 호출된다
+
+    * 함수형 컴포넌트의 생명주기(Hook)
+      1. 마운트(Mount)와 업데이트(Update)
+        - 두 번째 인자로 빈 배열을 전달하면, 이 useEffect는 컴포넌트가 마운트된 직후에 한 번 호출된다.
+        - 두 번째 인자로 전달한 배열에 있는 값(deps)이 변경될 때마다 호출된다.
+      2. 언마운트(Unmount)
+        - 함수 내에서 반환하는 함수는 컴포넌트가 언마운트될 때 호출된다.
+
+
+
