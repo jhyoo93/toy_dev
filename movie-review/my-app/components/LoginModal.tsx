@@ -7,7 +7,6 @@ import { useMutation } from 'react-query';
 import { getProviders, signIn } from 'next-auth/react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import cookie from 'js-cookie';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -58,37 +57,40 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     mutation.mutate(data);
   };
 
-  // 구글로그인
   const handleSocialLogin = (provider: string) => {
     signIn(provider);
   };
 
   if (!isOpen) return null;
 
-    return (
-        <>
-            <div className={styles.backdrop} onClick={onClose}></div>
-            <div className={styles.modal}>               
-              <form onSubmit={handleSubmit(onSubmit)}>
-                    <h2>로그인</h2>
-                    <div className={styles.formGroup}>
-                        <label>이메일 </label>
-                        <input type="email" {...register('email', { required: '이메일을 입력해주세요' })} />
-                        {errors.email && <p className={styles.error}>{errors.email.message}</p>}
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>비밀번호</label>
-                        <input type="password" {...register('password', { required: '비밀번호를 입력해주세요' })} />
-                        {errors.password && <p className={styles.error}>{errors.password.message}</p>}
-                    </div>
-                    <button className={styles.loginButton} type="submit">로그인</button>
-                    <button className={styles.socialLoginButton} type="button" onClick={() => handleSocialLogin('google')}>Google 로그인</button>
-                    <button className={styles.closeButton} onClick={onClose}>X</button>                  
-                </form>
-                {loginError && <p className={styles.error}>{loginError}</p>}
-            </div>
-        </>
-    );
+  return (
+    <>
+      <div className={styles.backdrop} onClick={onClose}></div>
+      <div className={styles.modal}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h2>로그인</h2>
+          <div className={styles.formGroup}>
+            <label>이메일</label>
+            <input type="email" {...register('email', { required: '이메일을 입력해주세요' })} />
+            {errors.email && <p className={styles.error}>{errors.email.message}</p>}
+          </div>
+          <div className={styles.formGroup}>
+            <label>비밀번호</label>
+            <input type="password" {...register('password', { required: '비밀번호를 입력해주세요' })} />
+            {errors.password && <p className={styles.error}>{errors.password.message}</p>}
+          </div>
+          <button className={styles.loginButton} type="submit">로그인</button>
+          {/* {providers.google && (
+            <button className={styles.socialLoginButton} type="button" onClick={() => handleSocialLogin(providers.google.id)}>
+              Google 로그인
+            </button>
+          )} */}
+          <button className={styles.closeButton} onClick={onClose}>X</button>
+        </form>
+        {loginError && <p className={styles.error}>{loginError}</p>}
+      </div>
+    </>
+  );
 };
 
 export default LoginModal;

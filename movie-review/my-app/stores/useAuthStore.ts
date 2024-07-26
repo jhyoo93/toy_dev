@@ -7,6 +7,7 @@ interface User {
   email: string;
   phone: string;
   image?: string;
+  token?: string; // 토큰 필드 추가
 }
 
 interface AuthState {
@@ -23,11 +24,13 @@ export const useAuthStore = create<AuthState>((set) => ({
   setUser: (user: User) => {
     set({ user });
     localStorage.setItem('user', JSON.stringify(user));
+    if (user.token) {
+      Cookies.set('authToken', user.token);
+    }
   },
   clearUser: () => {
     set({ user: null });
     localStorage.removeItem('user');
-    //localStorage.remove('authToken');
     Cookies.remove('authToken');
   },
   isLoginModalOpen: false,

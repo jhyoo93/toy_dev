@@ -6,12 +6,9 @@ import styles from '@/styles/Comments.module.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { getUsernameFromToken } from '@/utils/auth';
-import Modal from 'react-modal';
 
 interface CommentFormProps {
   movieId: string;
-  isOpen: boolean;
-  onRequestClose: () => void;
 }
 
 interface CommentFormData {
@@ -24,7 +21,7 @@ const schema = yup.object().shape({
   comment: yup.string().required('댓글을 입력해주세요.'),
 });
 
-const CommentForm = ({ movieId, isOpen, onRequestClose }: CommentFormProps) => {
+const CommentForm = ({ movieId }: CommentFormProps) => {
   const [username, setUsername] = useState<string>('');
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<CommentFormData>({
@@ -54,7 +51,6 @@ const CommentForm = ({ movieId, isOpen, onRequestClose }: CommentFormProps) => {
       onSuccess: () => {
         queryClient.invalidateQueries(['comments', movieId]);
         alert('댓글이 저장되었습니다.');
-        location.reload();
       },
       onError: (error) => {
         alert('댓글 저장 중 오류가 발생했습니다.');
@@ -68,26 +64,23 @@ const CommentForm = ({ movieId, isOpen, onRequestClose }: CommentFormProps) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose} className={styles.modal} overlayClassName={styles.overlay}>
-      <form className={styles.commentForm} onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.formGroup}>
-          <label>이름</label>
-          <input 
-            {...register('username')} 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
-            readOnly 
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>리뷰</label>
-          <textarea {...register('comment')} />
-        </div>
-        <div className={styles.formGroup}>
-          <button type="submit">리뷰 작성</button>
-        </div>
-      </form>
-    </Modal>
+    <form className={styles.commentForm} onSubmit={handleSubmit(onSubmit)}>
+      <div className={styles.formGroup}>
+        <label>이름</label>
+        <input 
+          {...register('username')} 
+          value={username} 
+          onChange={(e) => setUsername(e.target.value)} 
+          readOnly 
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <label>댓글</label>
+        <textarea {...register('comment')} />
+        {errors.comment && <p className={styles.error}>{errors.comment.message}</p>}
+      </div>
+      <button type="submit">댓글 작성</button>
+    </form>
   );
 };
 

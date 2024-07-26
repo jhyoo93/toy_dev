@@ -23,7 +23,7 @@ interface Params extends ParsedUrlQuery {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { req, res, params } = context;
+  const { req, params } = context;
   const { id } = params as Params;
 
   // 쿠키에서 토큰을 가져옴
@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (!token) {
     return {
       redirect: {
-        destination: '/?error=not_logged_in',
+        destination: '/',
         permanent: false,
       },
     };
@@ -75,14 +75,8 @@ const FilmDetail = ({ movie, error }: FilmDetailProps) => {
     }
   }, [error, router]);
 
-  useEffect(() => {
-    if (router.query.error === 'not_logged_in') {
-      alert('로그인이 필요합니다.');
-    }
-  }, [router]);
-
   if (!movie) {
-    return <></>;
+    return null;
   }
 
   const goList = (e: React.MouseEvent<HTMLButtonElement>) => {

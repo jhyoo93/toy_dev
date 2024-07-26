@@ -1,11 +1,12 @@
 import { GetServerSideProps } from 'next';
 import MovieList from '@/components/MovieList';
 import styles from '@/styles/Home.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Movie } from '@/types/Movie';
 import SearchForm from '@/components/SearchForm';
 import tmdbApi from '@/lib/axios';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 interface HomeProps {
   initialMovies: Movie[];
@@ -28,12 +29,19 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
   };
 };
 
-
 const Home = ({ initialMovies }: HomeProps) => {
+  const router = useRouter();
   const [movies, setMovies] = useState(initialMovies);
   const [page, setPage] = useState(2);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+
+  useEffect(() => {
+    if (router.query.needsLogin) {
+      alert('로그인이 필요합니다.');
+      router.replace('/', undefined, { shallow: true });
+    }
+  }, [router]);
 
   const loadMoreMovies = async () => {
     setLoading(true);
@@ -78,6 +86,5 @@ const Home = ({ initialMovies }: HomeProps) => {
     </>
   );
 };
-
 
 export default Home;
