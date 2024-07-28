@@ -58,7 +58,7 @@ const CommentList = ({ movieId }: CommentListProps) => {
           {pageNum}
         </button>
       ))}
-    </div>
+    </div><br/>
   </div>  
   );
 

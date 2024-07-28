@@ -28,17 +28,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   // 쿠키에서 토큰을 가져옴
   const cookies = cookie.parse(req.headers.cookie || '');
-  const token = cookies.authToken;
-
-  // 토큰이 없거나 유효하지 않으면 메인 페이지로 리다이렉트.
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
+  //const token = cookies.authToken;
 
   // API 호출하여 영화 데이터를 가져옴.
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;

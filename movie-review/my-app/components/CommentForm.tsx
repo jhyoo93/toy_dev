@@ -9,6 +9,8 @@ import { getUsernameFromToken } from '@/utils/auth';
 
 interface CommentFormProps {
   movieId: string;
+  isOpen: boolean;
+  onRequestClose: () => void;
 }
 
 interface CommentFormData {
@@ -51,6 +53,7 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
       onSuccess: () => {
         queryClient.invalidateQueries(['comments', movieId]);
         alert('댓글이 저장되었습니다.');
+        location.reload();
       },
       onError: (error) => {
         alert('댓글 저장 중 오류가 발생했습니다.');
@@ -77,7 +80,6 @@ const CommentForm = ({ movieId }: CommentFormProps) => {
       <div className={styles.formGroup}>
         <label>댓글</label>
         <textarea {...register('comment')} />
-        {errors.comment && <p className={styles.error}>{errors.comment.message}</p>}
       </div>
       <button type="submit">댓글 작성</button>
     </form>
