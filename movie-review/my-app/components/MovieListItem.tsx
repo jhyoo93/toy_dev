@@ -23,7 +23,7 @@ const MovieListItem = ({ movie }: MovieListItemProps) => {
   };
 
   return (
-    <li className={styles.movieListItem} key={movie.id}>
+    <li key={movie.id}>
       <a href={`/films/${movie.id}`} onClick={handleClick}>
           <div className={styles.posterContainer}>
             <Image 
@@ -33,14 +33,14 @@ const MovieListItem = ({ movie }: MovieListItemProps) => {
               objectFit="cover"
             />
           </div>
-          <div className={styles.info}>
-            <h2 className={styles.title}>제목 : {movie.title}</h2>
-            <h2 className={styles.title}>개봉일: {movie.release_date}</h2>
-            <div className={styles.starRatingContainer}>
-              평점 : <Rating value={Math.round(movie.vote_average / 2)} /> {/* 평점을 1~5로 변환 */}
-            </div>
-          </div>
       </a>
+      <div className={styles.info}>
+        <h2 className={styles.title}>제목 : {movie.title}</h2>
+        <h2 className={styles.title}>개봉일: {movie.release_date}</h2>
+        <div className={styles.starRatingContainer}>
+          평점 : <Rating value={Math.round(movie.vote_average)} />
+        </div>
+      </div>
     </li>
   );
 };

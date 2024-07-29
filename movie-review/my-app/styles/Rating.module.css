@@ -11,10 +11,11 @@
   display: inline-flex;
 }
 
-.filledStar {
-  color: #81ee38;
+.star {
+  font-size: 20px;
+  color: #ccc;
 }
 
-.emptyStar {
-  color: lightgray;
+.filledStar {
+  color: #81ee38;
 }

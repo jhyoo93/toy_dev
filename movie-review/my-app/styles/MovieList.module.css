@@ -56,6 +56,10 @@
   font-size: 16px;
 }
 
-:global(.light) .starRating {
-  color: #1f1f1f;
+.linkContainer a {
+  text-decoration: none;
+}
+
+.linkContainer a:hover {
+  text-decoration: none;
 }

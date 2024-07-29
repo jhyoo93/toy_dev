@@ -100,7 +100,7 @@ const FilmDetail = ({ movie, error }: FilmDetailProps) => {
               <tr>
                 <th>별점</th>    
                 <td>
-                  <Rating value={Math.round(movie.vote_average / 2)} />&nbsp;&nbsp;
+                  <Rating value={Math.round(movie.vote_average)} />&nbsp;&nbsp;
                   {movie.vote_average.toString().substring(0, 3)}
                 </td>
               </tr>
