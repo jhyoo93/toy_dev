@@ -7,6 +7,7 @@ import SearchForm from '@/components/SearchForm';
 import tmdbApi from '@/lib/axios';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import Chat from '@/components/Chat'; 
 
 interface HomeProps {
   initialMovies: Movie[];
@@ -83,6 +84,7 @@ const Home = ({ initialMovies }: HomeProps) => {
           </button>
         </div>
       )}
+      <Chat />
     </>
   );
 };
