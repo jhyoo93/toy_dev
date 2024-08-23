@@ -1,17 +1,14 @@
-import { jwtDecode } from "jwt-decode";
+import jwt from 'jsonwebtoken';
 
-interface DecodedToken {
-  username: string;
-  email: string;
-  id: string;
-}
+const SECRET_KEY = process.env.JWT_SECRET_KEY || 'your-secret-key';
 
-export const getUsernameFromToken = (token: string): string | null => {
+// 토큰을 검증하는 함수
+export const verifyToken = (token: string) => {
   try {
-    const decoded = jwtDecode<DecodedToken>(token);
-    return decoded.username || null;
-  } catch (error) {
-    console.error('토큰 디코딩 중 오류 발생:', error);
+    const decoded = jwt.verify(token, SECRET_KEY);
+    return decoded;
+  } catch (err) {
+    console.error('Token verification failed:', err);
     return null;
   }
 };

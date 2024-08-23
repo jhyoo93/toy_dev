@@ -8,25 +8,20 @@ const server = createServer((req, res) => {
 
 const wss = new WebSocketServer({ server });
 
-wss.on('connection', (ws: WebSocket) => {
+wss.on('connection', (ws: WebSocket, req) => {
   console.log('Client connected');
 
   ws.on('message', (message: string) => {
     console.log(`Received message: ${message}`);
-    // Broadcasting the received message to all connected clients
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(message);
-      }
-    });
+    ws.send(`Echo: ${message}`);
+  });
+
+  ws.on('close', () => {
+    console.log('Client disconnected');
   });
 
   ws.on('error', (error) => {
     console.error('WebSocket error:', error);
-  });
-
-  ws.on('close', (code, reason) => {
-    console.log(`WebSocket connection closed: ${code}, ${reason}`);
   });
 });
 
