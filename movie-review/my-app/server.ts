@@ -1,19 +1,22 @@
 import { createServer } from 'http';
-import { WebSocketServer, WebSocket } from 'ws';
+import { WebSocketServer } from 'ws';
 
+// HTTP 서버 생성
 const server = createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('WebSocket server running\n');
+  res.end('WebSocket server is running');
 });
 
+// WebSocket 서버 생성
 const wss = new WebSocketServer({ server });
 
-wss.on('connection', (ws: WebSocket, req) => {
-  console.log('Client connected');
+wss.on('connection', (ws, req) => {
+  const ip = req.socket.remoteAddress; // 클라이언트의 IP 주소 확인
+  console.log(`Client connected from ${ip}`);
 
-  ws.on('message', (message: string) => {
-    console.log(`Received message: ${message}`);
-    ws.send(`Echo: ${message}`);
+  ws.on('message', (message) => {
+    console.log('Received:', message);
+    ws.send(`Server received: ${message}`);
   });
 
   ws.on('close', () => {
@@ -25,6 +28,7 @@ wss.on('connection', (ws: WebSocket, req) => {
   });
 });
 
-server.listen(4000, () => {
-  console.log('WebSocket server is listening on port 4000');
+// HTTP 및 WebSocket 서버가 8080 포트에서 실행됨
+server.listen(8080, () => {
+  console.log('Server is running on http://127.0.0.1:8080');
 });
