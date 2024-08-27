@@ -31,4 +31,4 @@ wss.on('connection', (ws, req) => {
 // HTTP 및 WebSocket 서버가 3000 포트에서 실행됨
 server.listen(4000, () => {
   console.log('Server is running on http://127.0.0.1:4000');
-});
+}); 
