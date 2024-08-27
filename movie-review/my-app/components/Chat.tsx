@@ -15,7 +15,7 @@ const Chat = () => {
     }
 
     console.log('Attempting to connect to WebSocket server...');
-    const socket = new WebSocket(`ws://127.0.0.1:8080?user=${user.token}`);
+    const socket = new WebSocket(`ws://127.0.0.1:3000?user=${user.token}`);
 
     socket.onopen = () => {
       console.log('Connected to WebSocket server');
