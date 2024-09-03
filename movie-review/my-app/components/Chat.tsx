@@ -13,39 +13,44 @@ const Chat = () => {
       console.log('User is not logged in or token is missing');
       return;
     }
-
+  
     console.log('Attempting to connect to WebSocket server...');
-    const socket = new WebSocket(`ws://127.0.0.1:3000?user=${user.token}`);
-
+    const socket = new WebSocket(`ws://localhost:4000?user=${user.token}`);
+    
     socket.onopen = () => {
       console.log('Connected to WebSocket server');
       setWs(socket);
-
+  
       const welcomeMessage = `${user.username}님이 입장하셨습니다.`;
       setMessages((prevMessages) => [...prevMessages, welcomeMessage]);
     };
-
+  
     socket.onerror = (error) => {
       console.error('WebSocket error:', error);
     };
-
+  
     socket.onclose = (event) => {
       console.log('WebSocket connection closed:', event.code, event.reason);
       setWs(null);
     };
-
+  
     socket.onmessage = (event: MessageEvent) => {
       console.log('Received message:', event.data);
       setMessages((prevMessages) => [...prevMessages, event.data]);
     };
-
+    console.log(socket);
+    // Cleanup on component unmount
     return () => {
-      console.log('Closing WebSocket connection');
-      socket.close();
+      console.log('Cleaning up WebSocket connection');
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.close();
+      }
     };
   }, [isLoggedIn, user?.token]);
 
   const sendMessage = () => {
+    console.log(ws);
+    
     if (!ws || ws.readyState !== WebSocket.OPEN) {
       console.error('WebSocket is not open');
       return;
@@ -58,6 +63,7 @@ const Chat = () => {
 
     console.log('Sending message:', input);
     ws.send(input);
+    setMessages((prevMessages) => [...prevMessages, `You: ${input}`]); // Sent message is now also displayed in the chat
     setInput('');
   };
 
